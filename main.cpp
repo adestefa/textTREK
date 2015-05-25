@@ -8,10 +8,15 @@
 
 using namespace std;
 
+
+// game helper functions
 void start();   // starts game
 void welcome(); // msg
 void setBackground(string color);
 int randomNumber(int limit, bool omitZero);
+void getUserInput();
+
+// random object factory functions
 Item randomItem();
 Room randomRoom();
 Player randomMonster();
@@ -27,18 +32,22 @@ Player _WORLD_MONSTERS[5];
 // global double list made up of rooms to map the world
 Room _WORLD_MAP[5][5];
 
-
+string _ROOM_DESC[6];
+int _NUM_ROOM_DESC = 6;
 
 // introduce our player hero
 Player _User = randomPlayer();
 
+string _input = "";
 
 int main()
 {
 
-    //setBackground("grey");
+
 
     welcome();
+
+    // couts here are verbose but also very helpful with problems loading, you can tell where the issue happened
 
     cout << "populating world items...\n";
     // populate world items
@@ -54,18 +63,23 @@ int main()
     _WORLD_MONSTERS[2] = Player("Skeleton", 1000, 10, 20, 4);
     _WORLD_MONSTERS[3] = Player("Orc", 200, 50, 200, 50);
     _WORLD_MONSTERS[4] = Player("Imp", 200, 7, 20, 2);
-     // sanity test items
-	//cout << "Random item generated:";
-   // Item item = randomItem();
-   // item.specs();
-    cout << "generating world map...\n";
-    // build the world map
-    _WORLD_MAP[0][0] = Room("The room appears empty, but the smell of death fills your nose. You're getting closer!", 1,0,0,0);
-    _WORLD_MAP[0][1] = Room("The smell is stronger here", 1,0,0,0);
+
+
+     cout << "generating world map...\n";
+     _ROOM_DESC[0]="A dark room lit with a torch on the North wall";
+     _ROOM_DESC[1]="The smell of Orc is strong in this damp room";
+     _ROOM_DESC[2]="A large room with a tapestry on the South wall and a bookshelf and candle on the North. In the center of the room is a large table with eight chairs.";
+     _ROOM_DESC[3]="A coat of arms is on the East wall";
+     _ROOM_DESC[4]="The North wall is covered with moss. There is a ";
+     _ROOM_DESC[5]="The room appears empty other than a table with a platter. The smell of death and stale bread fills your nose.";
+
+     // build the world map
+    _WORLD_MAP[0][0] = randomRoom();
+    _WORLD_MAP[0][1] = randomRoom();
 
     //cout << "Random monster generated:";
-  //  Player Monster = randomMonster();
-   // Monster.specs();
+    //  Player Monster = randomMonster();
+    // Monster.specs();
 
     cout << "\n\n";
     start();
@@ -100,15 +114,28 @@ void start() {
     string playerName;
     cin >> playerName;
     _User.setName(playerName);
-    //setBackground("grey");
-    cout << "\n" << _User.getName() << " has joined the game! generating your new stats...\n";
+     cout << "\n" << _User.getName() << " has joined the game! generating your new stats...\n";
     _User.specs();
     cout << "\n\n Now it begins...\n\n";
-    cout << "You are standing in an open field, the sun is setting in the West and there is a cave to your East.\n";
+    system("PAUSE");
+    system("cls");
+    //setBackground("grey");
+    cout << "\n\n\nYou are standing in an open field, the sun is setting in the West and there is a cave to your East.\n";
+    cout << "\n\nType --help for help ;-)\n";
     cout << ">";
+    getUserInput();
+    //setBackground("black");
+    system("PAUSE");
 
 }
 
+void getUserInput() {
+     cin >> _input;
+     if (_input == "--help"){
+        cout << "valid commands: 'North', 'South', 'East', 'West', 'pickup' \n\n";
+     }
+
+}
 
 Player randomPlayer() {
     int age = randomNumber(100, true);
@@ -119,13 +146,25 @@ Player randomPlayer() {
     return p;
 }
 
-
+/*
+    Returns a Room object with random contents
+*/
 Room randomRoom() {
-    //srand ( time(NULL) );
-    //int RandMonIndex = rand() % 4;
-    Room r("Random room");
-    r._monsters[0] = randomMonster();
-    r._monsters[1] = randomMonster();
+    // generate a Room object with a random description
+    Room r(_ROOM_DESC[randomNumber(_NUM_ROOM_DESC, true)]);
+
+
+    if(randomNumber(1, false)) {
+        // add monsters
+        r._monsters[0] = randomMonster();
+    }
+
+    if(randomNumber(1, false)) {
+        // add items
+        r._items[0] = randomItem();
+     }
+
+    // return the Room
     return r;
 }
 
@@ -151,7 +190,7 @@ void setBackground(string color) {
     } else if(color == "green"){
         system("COLOR 20"); // green background
     } else {
-        system("COLOR ");
+        system("COLOR 07");
     }
 }
 
