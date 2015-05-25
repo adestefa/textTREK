@@ -15,10 +15,12 @@ void welcome(); // msg
 void setBackground(string color);
 int randomNumber(int limit, bool omitZero);
 void getUserInput();
+void showMap();
+
 
 // random object factory functions
 Item randomItem();
-Room randomRoom();
+Room randomRoom(int north, int south, int east, int west);
 Player randomMonster();
 Player randomPlayer();
 
@@ -32,12 +34,16 @@ Player _WORLD_MONSTERS[5];
 // global double list made up of rooms to map the world
 Room _WORLD_MAP[5][5];
 
+// in order to randomly generate rooms
+// we need a list of descriptions we can
+// randomly select from
 string _ROOM_DESC[6];
 int _NUM_ROOM_DESC = 6;
 
 // introduce our player hero
 Player _User = randomPlayer();
 
+// global string for all user input
 string _input = "";
 
 int main()
@@ -70,22 +76,38 @@ int main()
      _ROOM_DESC[4]="The North wall is covered with moss. There is a ";
      _ROOM_DESC[5]="The room appears empty other than a table with a platter. The smell of death and stale bread fills your nose.";
 
-     // build the world map
-    _WORLD_MAP[0][0] = randomRoom();
-    _WORLD_MAP[0][1] = randomRoom();
+    // build the world map
 
-    //cout << "Random monster generated:";
-    //  Player Monster = randomMonster();
-    // Monster.specs();
+    //first row
+    _WORLD_MAP[0][0] = randomRoom(0,0,1,0);
+    _WORLD_MAP[0][1] = randomRoom(0,0,1,1);
+    _WORLD_MAP[0][2] = randomRoom(0,0,1,1);
+    _WORLD_MAP[0][3] = randomRoom(0,0,1,0);
+
+    //second row
+    _WORLD_MAP[1][0] = randomRoom(0,1,1,0);
+    _WORLD_MAP[1][1] = randomRoom(0,1,0,1);
+    _WORLD_MAP[1][2] = randomRoom(0,1,1,0);
+    _WORLD_MAP[1][3] = randomRoom(1,1,0,1);
+
+    //third row
+    _WORLD_MAP[2][0] = randomRoom(1,1,0,0);
+    _WORLD_MAP[2][1] = randomRoom(1,1,1,0);
+    _WORLD_MAP[2][2] = randomRoom(1,0,1,1);
+    _WORLD_MAP[2][3] = randomRoom(1,0,0,1);
+
+    //fourth row
+    _WORLD_MAP[3][0] = randomRoom(1,0,0,0);
+    _WORLD_MAP[3][1] = randomRoom(1,0,1,0);
+    _WORLD_MAP[3][2] = randomRoom(0,0,1,1);
+    _WORLD_MAP[3][3] = randomRoom(0,0,0,1);
 
 
+
+    // LET'S GO!
     start();
 
-    Room r1 = randomRoom();
-    //r1.searchRoom();
 
-	//Player _User;
-   // WelcomePlayer(_User);
 	//bool isPlaying = true;
 	//while (isPlaying)
 	//{
@@ -129,7 +151,13 @@ void getUserInput() {
      cin >> _input;
      if (_input == "--help"){
         cout << "valid commands: 'North', 'South', 'East', 'West', 'pickup' \n\n";
-     }
+     } else if (_input == "map") {
+       // Room t = _WORLD_MAP[3];
+       // cout << t._desc << endl;
+        showMap();
+
+
+    }
 
 }
 Player randomPlayer() {
@@ -148,16 +176,18 @@ Item randomItem() {
 }
 
 //Returns a Room object with random contents
-Room randomRoom() {
-    // generate a Room object with a random description
-    Room r(_ROOM_DESC[randomNumber(_NUM_ROOM_DESC, true)]);
+Room randomRoom(int north, int south, int east, int west) {
 
+    // generate a Room object with a random description and defined doors
+    Room r(_ROOM_DESC[randomNumber(_NUM_ROOM_DESC, true)], north, south, east, west);
 
+    // randomly add random monster
     if(randomNumber(1, false)) {
         // add monsters
         r._monsters[0] = randomMonster();
     }
 
+    // randomly add random item
     if(randomNumber(1, false)) {
         // add items
         r._items[0] = randomItem();
@@ -166,6 +196,16 @@ Room randomRoom() {
     // return the Room
     return r;
 }
+
+void showMap() {
+    cout << "MAP REPORT\n";
+    for(int i=0;i<4;i++){
+        for(int b=0;b<4;b++){
+            _WORLD_MAP[i][b].specs();
+        }
+    }
+}
+
 
 // given a limit integer, and if you should omit zero, will return a random number between 1 and 'limit'
 int randomNumber(int limit, bool omitZero) {

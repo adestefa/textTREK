@@ -32,6 +32,7 @@ public:
     // member functions
     int hasDoor(string);
     void searchRoom();
+    void specs() const;
 
 private:
 

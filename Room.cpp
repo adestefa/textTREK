@@ -60,6 +60,24 @@ using namespace std;
           return 0;
     }
 
+
+    void Room::specs() const {
+        cout << _desc << endl;
+
+        cout << "Monsters:\n";
+         for(int m = 0; m < 5; m++) {
+                string name = _monsters[m].getName();
+                cout << name << endl;
+        }
+        cout << "Items:\n";
+        for(int m = 0; m < 5; m++) {
+                string name = _items[m].getName();
+                cout << name << endl;
+        }
+
+
+    }
+
     // report all things in this room
     void Room::searchRoom() {
         string monsters;
