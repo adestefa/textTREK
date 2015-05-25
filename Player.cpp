@@ -1,0 +1,95 @@
+#include "Player.h"
+
+
+    Player::Player(){
+        _name = "";
+        _age = 0;
+        _damage = 0;
+        _health = 0;
+        _armor = 0;
+    }
+
+
+    Player::Player(string n){
+        _name = n;
+    }
+    Player::Player(string n, int a){
+        _name = n;
+        _age = a;
+    }
+    Player::Player(string n, int a, int d){
+        _name = n;
+        _age = a;
+        _damage = d;
+    }
+    Player::Player(string n, int a, int d, int h){
+        _name = n;
+        _age = a;
+        _damage = d;
+        _health = h;
+    }
+
+    Player::Player(string n, int a, int d, int h, int ar) {
+        _name = n;
+        _age = a;
+        _damage = d;
+        _health = h;
+        _armor = ar;
+    }
+
+
+    Player::~Player(){
+
+    }
+
+    void Player::specs() const {
+        cout << endl <<
+        "Player:" << _name << endl <<
+        "Age:" << _age << endl <<
+        "Damage:" << _damage << endl <<
+        "Health:" << _health << endl <<
+        "Armor:" << _armor << endl << endl;
+
+
+    }
+
+
+
+    string Player::getName() const{
+        return _name;
+    }
+    int Player::getAge() const{
+        return _age;
+    }
+    int Player::getHealth() const{
+        return _health;
+    }
+    int Player::getDamage() const{
+        return _damage;
+    }
+    int Player::getGold() const{
+        return _gold;
+    }
+    int Player::getArmor() const{
+        return _armor;
+    }
+
+    void Player::setName(string n){
+        _name = n;
+    }
+    void Player::setAge(int a){
+        _age = a;
+    }
+    void Player::setHealth(int h){
+        _health = h;
+    }
+    void Player::setDamage(int d){
+        _damage = d;
+    }
+    void Player::setGold(int g){
+        _gold = g;
+    }
+    void Player::setAromor(int ar){
+        _armor = ar;
+    }
+

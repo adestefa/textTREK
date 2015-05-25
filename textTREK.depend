@@ -1,0 +1,39 @@
+# depslib dependency file v1.0
+1432502424 source:c:\users\admin\desktop\c++\texttrek\texttrek\item.cpp
+	"Item.h"
+
+1432495630 c:\users\admin\desktop\c++\texttrek\texttrek\item.h
+	<iostream>
+	<string>
+
+1432517247 source:c:\users\admin\desktop\c++\texttrek\texttrek\main.cpp
+	<iostream>
+	<string>
+	<time.h>
+	<stdlib.h>
+	"Player.h"
+	"Item.h"
+	"Room.h"
+
+1432493039 c:\users\admin\desktop\c++\texttrek\texttrek\item.cpp
+	"Item.h"
+
+1432492971 c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
+	"Player.h"
+
+1432501622 c:\users\admin\desktop\c++\texttrek\texttrek\player.h
+	<iostream>
+	<string>
+
+1432503335 source:c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
+	"Player.h"
+
+1432513745 source:c:\users\admin\desktop\c++\texttrek\texttrek\room.cpp
+	"Room.h"
+
+1432513667 c:\users\admin\desktop\c++\texttrek\texttrek\room.h
+	<iostream>
+	<string>
+	"Player.h"
+	"Item.h"
+
