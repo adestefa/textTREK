@@ -42,9 +42,6 @@ string _input = "";
 
 int main()
 {
-
-
-
     welcome();
 
     // couts here are verbose but also very helpful with problems loading, you can tell where the issue happened
@@ -81,7 +78,7 @@ int main()
     //  Player Monster = randomMonster();
     // Monster.specs();
 
-    cout << "\n\n";
+
     start();
 
     Room r1 = randomRoom();
@@ -109,7 +106,7 @@ void welcome() {
 }
 
 void start() {
-    cout << "           ADVENTURE AWAITS!\n\n";
+    cout << "\n\n           ADVENTURE AWAITS!\n\n";
     cout << "\n First we need to know our hero's new name>";
     string playerName;
     cin >> playerName;
@@ -128,7 +125,6 @@ void start() {
     system("PAUSE");
 
 }
-
 void getUserInput() {
      cin >> _input;
      if (_input == "--help"){
@@ -136,7 +132,6 @@ void getUserInput() {
      }
 
 }
-
 Player randomPlayer() {
     int age = randomNumber(100, true);
     int damage = randomNumber(30, true);
@@ -145,10 +140,14 @@ Player randomPlayer() {
     Player p("r", age, damage, health, armor);
     return p;
 }
+Player randomMonster() {
+    return _WORLD_MONSTERS[randomNumber(4, false)];
+}
+Item randomItem() {
+    return _WORLD_ITEMS[randomNumber(3, false)];
+}
 
-/*
-    Returns a Room object with random contents
-*/
+//Returns a Room object with random contents
 Room randomRoom() {
     // generate a Room object with a random description
     Room r(_ROOM_DESC[randomNumber(_NUM_ROOM_DESC, true)]);
@@ -168,32 +167,7 @@ Room randomRoom() {
     return r;
 }
 
-
-Player randomMonster() {
-    srand ( time(NULL) );
-    int RandIndex = rand() % 4;
-    return _WORLD_MONSTERS[RandIndex];
-}
-
-
-Item randomItem() {
-    srand ( time(NULL) ); //initialize the random seed
-    int RandIndex = rand() % 3; //generates a random number between 0 and 3
-    return _WORLD_ITEMS[RandIndex];
-}
-
-void setBackground(string color) {
-    if (color == "red"){
-        system("COLOR 40"); //red background
-    } else if(color == "grey"){
-        system("COLOR 70"); // gray background
-    } else if(color == "green"){
-        system("COLOR 20"); // green background
-    } else {
-        system("COLOR 07");
-    }
-}
-
+// given a limit integer, and if you should omit zero, will return a random number between 1 and 'limit'
 int randomNumber(int limit, bool omitZero) {
     srand ( time(NULL) );
     int ranNum = rand() % limit; // does the work
@@ -204,4 +178,19 @@ int randomNumber(int limit, bool omitZero) {
     } else {
         return ranNum;
     }
+}
+
+
+// using this we can signify action, red for damage, green for a winning blow or gold for finding loot.
+void setBackground(string color) {
+    if (color == "red"){
+        system("COLOR 40"); //red background
+    } else if(color == "grey"){
+        system("COLOR 70"); // gray background
+    } else if(color == "green"){
+        system("COLOR 20"); // green background
+    } else {
+        system("COLOR 07");
+    }
+    //TODO: add gold color..
 }
