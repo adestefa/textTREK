@@ -23,7 +23,7 @@ public:
     Room(string , int, int, int, int);
     Room(string , int, int, int, int, Player[], Item[]);
 
-    // wants in the room?
+    //what's in the room?
     string _desc;
     Player _monsters[5];
     Item _items[5];
