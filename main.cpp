@@ -210,6 +210,9 @@ bool processCMD(string cmd) {
     } else if(cmd == "reset"){
         cout << "reset\n";
 
+    } else if(cmd == "flee"){
+	cout << "As a true coward, you scuttle away.";
+
     } else if(cmd == "stats"){
          _User.specs();
 
