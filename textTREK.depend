@@ -6,7 +6,7 @@
 	<iostream>
 	<string>
 
-1432540783 source:c:\users\admin\desktop\c++\texttrek\texttrek\main.cpp
+1432621111 source:c:\users\admin\desktop\c++\texttrek\texttrek\main.cpp
 	<iostream>
 	<string>
 	<time.h>
@@ -14,6 +14,7 @@
 	"Player.h"
 	"Item.h"
 	"Room.h"
+	<vector>
 
 1432493039 c:\users\admin\desktop\c++\texttrek\texttrek\item.cpp
 	"Item.h"

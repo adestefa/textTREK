@@ -14,12 +14,13 @@ using namespace std;
 // *********************************
 void start();   // starts game
 void welcome(); // msg
+void showMap();
+void startup();
+void getUserInput();
+void playWindowsChime();
+bool processCMD(string cmd);
 void setBackground(string color);
 int randomNumber(int limit, bool omitZero);
-void getUserInput();
-bool processCMD(string cmd);
-void showMap();
-
 
 // *********************************
 // random object factory functions
@@ -35,7 +36,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.1.1";
+string _VER = "0.1.2";
 // command prompt show to user when they type
 string _CMD_PROMPT = "$textTREK>";
 // global string for all user input
@@ -121,17 +122,8 @@ int main()
     _WORLD_MAP[3][2] = randomRoom(0,0,1,1);
     _WORLD_MAP[3][3] = randomRoom(0,0,0,1);
 
-
     cout << "Game world generation complete.\n\n";
-
-
-   // getUserInput();
-    start();
-
-
-    // LET'S GO!
-    //start();
-
+    startup();
 
 	//bool isPlaying = true;
 	//while (isPlaying)
@@ -155,7 +147,7 @@ void welcome() {
     msg = msg + "textTREK is a registered trademark of Bitrot, Inc.\n\n";
     cout << msg;
 }
-void start() {
+void startup() {
     cout << "\n\n           ADVENTURE AWAITS!\n\n";
     cout << "\n First we need to know our hero's new name>";
     string playerName;
@@ -166,15 +158,16 @@ void start() {
     cout << "\n\n Now it begins...\n\n";
     system("PAUSE");
     system("cls");
-    //setBackground("grey");
-    cout << "\n\n\nYou are standing in an open field, the sun is setting in the West and there is a cave to your East.\n";
+    cout << "\n\n\nYou are standing in an open field, the sun is setting in the West and there is a cave to your East.\n\n";
     getUserInput();
+
 }
 void getUserInput() {
-    cout << _CMD_PROMPT;
-    string in;
+    string in = "reset";
     getline(cin, in);
     bool exitCMD = processCMD(in);
+    // moved prompt here to avoid empty duplicate
+    cout << "\n" << _CMD_PROMPT;
     if (!exitCMD) {
         getUserInput();
     }
@@ -183,7 +176,7 @@ bool processCMD(string cmd) {
     bool exitCMD = false;
 
     if(cmd == "" || cmd.empty()){
-        cout << "\nSorry, that is not a valid command.\n";
+       // cout << "\nSorry, that is not a valid command.\n";
 
     } else if(cmd == "go north"){
         cout << "You head north...\n";
@@ -197,6 +190,9 @@ bool processCMD(string cmd) {
     } else if(cmd == "go west"){
         cout << "You head west\n";
 
+    } else if(cmd == "reset"){
+        cout << "reset\n";
+
     } else if(cmd == "search"){
         cout << "You search around the room...\n";
 
@@ -209,14 +205,23 @@ bool processCMD(string cmd) {
     } else if (cmd == "map") {
          showMap();
 
+    } else if (cmd == "red") {
+       setBackground("red");
+    } else if (cmd == "green") {
+       setBackground("green");
+    } else if (cmd == "grey") {
+       setBackground("grey");
+    } else if (cmd == "black") {
+       setBackground("black");
+    } else if (cmd == "windows chime") {
+       playWindowsChime();
+
+
     } else if(cmd == "exit"){
         cout << "Giving up is it? OK, well see ya later.\n";
         exitCMD = true;
 
-    } else {
-        cout << "\nSorry, not sure what you mean there.\n";
     }
-
     return exitCMD;
 }
 
@@ -246,6 +251,9 @@ void setBackground(string color) {
     //TODO: add gold color..
 }
 
+void playWindowsChime() {
+    cout<<"\a\a\a\a\a\a\a";
+}
 
 
 // *********************************
