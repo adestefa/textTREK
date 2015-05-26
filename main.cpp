@@ -5,24 +5,41 @@
 #include "Player.h"
 #include "Item.h"
 #include "Room.h"
+#include <vector>
 
 using namespace std;
 
-
+// *********************************
 // game helper functions
+// *********************************
 void start();   // starts game
 void welcome(); // msg
 void setBackground(string color);
 int randomNumber(int limit, bool omitZero);
 void getUserInput();
+bool processCMD(string cmd);
 void showMap();
 
 
+// *********************************
 // random object factory functions
+// *********************************
 Item randomItem();
 Room randomRoom(int north, int south, int east, int west);
 Player randomMonster();
 Player randomPlayer();
+
+
+// *********************************
+// game global space
+// *********************************
+
+// version
+string _VER = "0.1.1";
+// command prompt show to user when they type
+string _CMD_PROMPT = "$textTREK>";
+// global string for all user input
+string _input = "";
 
 
 // global list of all the items in the world
@@ -43,8 +60,10 @@ int _NUM_ROOM_DESC = 6;
 // introduce our player hero
 Player _User = randomPlayer();
 
-// global string for all user input
-string _input = "";
+
+// *********************************
+// Do the work!
+// *********************************
 
 int main()
 {
@@ -103,9 +122,15 @@ int main()
     _WORLD_MAP[3][3] = randomRoom(0,0,0,1);
 
 
+    cout << "Game world generation complete.\n\n";
+
+
+   // getUserInput();
+    start();
+
 
     // LET'S GO!
-    start();
+    //start();
 
 
 	//bool isPlaying = true;
@@ -118,15 +143,18 @@ int main()
 }
 
 
+// *********************************
+// startup and text input functions
+// *********************************
+
+
 void welcome() {
-    string msg = "\n                textTREK\n\n";
+    string msg = "\n                textTREK v" + _VER + "\n\n";
     msg = msg + "textTREK: A Simple Text Adventure\n";
     msg = msg + "Copyright (c) 2015 Bitrot, Inc\n";
-    msg = msg + "textTREK is a registered trademark of Bitrot, Inc.\nRelease 0.1\n\n";
-    msg = msg + "                  ------\n\n";
+    msg = msg + "textTREK is a registered trademark of Bitrot, Inc.\n\n";
     cout << msg;
 }
-
 void start() {
     cout << "\n\n           ADVENTURE AWAITS!\n\n";
     cout << "\n First we need to know our hero's new name>";
@@ -140,26 +168,90 @@ void start() {
     system("cls");
     //setBackground("grey");
     cout << "\n\n\nYou are standing in an open field, the sun is setting in the West and there is a cave to your East.\n";
-    cout << "\n\nType --help for help ;-)\n";
-    cout << ">";
     getUserInput();
-    //setBackground("black");
-    system("PAUSE");
-
 }
 void getUserInput() {
-     cin >> _input;
-     if (_input == "--help"){
+    cout << _CMD_PROMPT;
+    string in;
+    getline(cin, in);
+    bool exitCMD = processCMD(in);
+    if (!exitCMD) {
+        getUserInput();
+    }
+}
+bool processCMD(string cmd) {
+    bool exitCMD = false;
+
+    if(cmd == "" || cmd.empty()){
+        cout << "\nSorry, that is not a valid command.\n";
+
+    } else if(cmd == "go north"){
+        cout << "You head north...\n";
+
+    } else if(cmd == "go south"){
+        cout << "You head south...\n";
+
+    } else if(cmd == "go east"){
+        cout << "You head east...\n";
+
+    } else if(cmd == "go west"){
+        cout << "You head west\n";
+
+    } else if(cmd == "search"){
+        cout << "You search around the room...\n";
+
+    } else if(cmd == "attack"){
+       cout << "You raise your sword and start screaming as you lunge at your opponent.\n";
+
+    } else if(cmd == "help"){
         cout << "valid commands: 'North', 'South', 'East', 'West', 'pickup' \n\n";
-     } else if (_input == "map") {
-       // Room t = _WORLD_MAP[3];
-       // cout << t._desc << endl;
-        showMap();
 
+    } else if (cmd == "map") {
+         showMap();
 
+    } else if(cmd == "exit"){
+        cout << "Giving up is it? OK, well see ya later.\n";
+        exitCMD = true;
+
+    } else {
+        cout << "\nSorry, not sure what you mean there.\n";
     }
 
+    return exitCMD;
 }
+
+
+// *********************************
+// Helper functions
+// *********************************
+void showMap() {
+    cout << "MAP REPORT\n";
+    for(int i=0;i<4;i++){
+        for(int b=0;b<4;b++){
+            _WORLD_MAP[i][b].specs();
+        }
+    }
+}
+// using this we can signify action, red for damage, green for a winning blow or gold for finding loot.
+void setBackground(string color) {
+    if (color == "red"){
+        system("COLOR 40"); //red background
+    } else if(color == "grey"){
+        system("COLOR 70"); // gray background
+    } else if(color == "green"){
+        system("COLOR 20"); // green background
+    } else {
+        system("COLOR 07");
+    }
+    //TODO: add gold color..
+}
+
+
+
+// *********************************
+// randomizer object factories
+// *********************************
+
 Player randomPlayer() {
     int age = randomNumber(100, true);
     int damage = randomNumber(30, true);
@@ -174,7 +266,6 @@ Player randomMonster() {
 Item randomItem() {
     return _WORLD_ITEMS[randomNumber(3, false)];
 }
-
 //Returns a Room object with random contents
 Room randomRoom(int north, int south, int east, int west) {
 
@@ -197,16 +288,6 @@ Room randomRoom(int north, int south, int east, int west) {
     return r;
 }
 
-void showMap() {
-    cout << "MAP REPORT\n";
-    for(int i=0;i<4;i++){
-        for(int b=0;b<4;b++){
-            _WORLD_MAP[i][b].specs();
-        }
-    }
-}
-
-
 // given a limit integer, and if you should omit zero, will return a random number between 1 and 'limit'
 int randomNumber(int limit, bool omitZero) {
     srand ( time(NULL) );
@@ -218,19 +299,4 @@ int randomNumber(int limit, bool omitZero) {
     } else {
         return ranNum;
     }
-}
-
-
-// using this we can signify action, red for damage, green for a winning blow or gold for finding loot.
-void setBackground(string color) {
-    if (color == "red"){
-        system("COLOR 40"); //red background
-    } else if(color == "grey"){
-        system("COLOR 70"); // gray background
-    } else if(color == "green"){
-        system("COLOR 20"); // green background
-    } else {
-        system("COLOR 07");
-    }
-    //TODO: add gold color..
 }
