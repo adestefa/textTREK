@@ -6,6 +6,8 @@
 #include "Item.h"
 #include "Room.h"
 #include <vector>
+#include <windows.h>
+
 
 using namespace std;
 
@@ -22,6 +24,8 @@ bool processCMD(string cmd);
 void setBackground(string color);
 int randomNumber(int limit, bool omitZero);
 
+void waitProgressBar(string desc, int duration);
+
 // *********************************
 // random object factory functions
 // *********************************
@@ -36,7 +40,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.1.2";
+string _VER = "0.1.3";
 // command prompt show to user when they type
 string _CMD_PROMPT = "$textTREK>";
 // global string for all user input
@@ -68,27 +72,33 @@ Player _User = randomPlayer();
 
 int main()
 {
-    welcome();
 
-    // couts here are verbose but also very helpful with problems loading, you can tell where the issue happened
 
-    cout << "populating world items...\n";
+    welcome(); // display game splash screen and welcome message.
+    // ____________________
     // populate world items
-	_WORLD_ITEMS[0] = Item("Potion of Healing", "Drink this potion to heal thyself", 100, 0, 100, 100);
+    // --------------------
+	waitProgressBar("Populating world items", 4);
+    _WORLD_ITEMS[0] = Item("Potion of Healing", "Drink this potion to heal thyself", 100, 0, 100, 100);
     _WORLD_ITEMS[1] = Item("Sword of Shadows", "Kills undead", 200, 40, 0, 78);
     _WORLD_ITEMS[2] = Item("Shield of Blocking", "A durable shield that can block heavy blows", 300, 0, 0, 30);
     _WORLD_ITEMS[3] = Item("Wooden chair", "Just a boring chair", 30, 3, 0, 58);
+    cout << "Item loading complete!\n";
 
-    cout << "populating world monsters...\n";
-    // populate world monsters (name, age, damage, health, armor)
+    // ____________________
+    // populate world monsters
+    // --------------------
+    waitProgressBar("Populating world monsters", 5);
+    // (name, age, damage, health, armor)
     _WORLD_MONSTERS[0] = Player("Ghoul", 30, 3, 10, 5);
     _WORLD_MONSTERS[1] = Player("Commander Ghoul", 80, 20, 100, 15);
     _WORLD_MONSTERS[2] = Player("Skeleton", 1000, 10, 20, 4);
     _WORLD_MONSTERS[3] = Player("Orc", 200, 50, 200, 50);
     _WORLD_MONSTERS[4] = Player("Imp", 200, 7, 20, 2);
+    cout << "Monster loading complete!\n";
 
-
-     cout << "generating world map...\n";
+     waitProgressBar("Creating world map", 7);
+     // random room descriptions
      _ROOM_DESC[0]="A dark room lit with a torch on the North wall";
      _ROOM_DESC[1]="The smell of Orc is strong in this damp room";
      _ROOM_DESC[2]="A large room with a tapestry on the South wall and a bookshelf and candle on the North. In the center of the room is a large table with eight chairs.";
@@ -96,36 +106,43 @@ int main()
      _ROOM_DESC[4]="The North wall is covered with moss. There is a ";
      _ROOM_DESC[5]="The room appears empty other than a table with a platter. The smell of death and stale bread fills your nose.";
 
-    // build the world map
-
-    //first row
+     // ____________________
+     // map first row
+     // --------------------
     _WORLD_MAP[0][0] = randomRoom(0,0,1,0);
     _WORLD_MAP[0][1] = randomRoom(0,0,1,1);
     _WORLD_MAP[0][2] = randomRoom(0,0,1,1);
     _WORLD_MAP[0][3] = randomRoom(0,0,1,0);
 
-    //second row
+    // ____________________
+    // map second row
+    // --------------------
     _WORLD_MAP[1][0] = randomRoom(0,1,1,0);
     _WORLD_MAP[1][1] = randomRoom(0,1,0,1);
     _WORLD_MAP[1][2] = randomRoom(0,1,1,0);
     _WORLD_MAP[1][3] = randomRoom(1,1,0,1);
 
-    //third row
+    // ____________________
+    // map third row
+    // --------------------
     _WORLD_MAP[2][0] = randomRoom(1,1,0,0);
     _WORLD_MAP[2][1] = randomRoom(1,1,1,0);
     _WORLD_MAP[2][2] = randomRoom(1,0,1,1);
     _WORLD_MAP[2][3] = randomRoom(1,0,0,1);
 
-    //fourth row
+    // ____________________
+    // map fourth row
+    // --------------------
     _WORLD_MAP[3][0] = randomRoom(1,0,0,0);
     _WORLD_MAP[3][1] = randomRoom(1,0,1,0);
     _WORLD_MAP[3][2] = randomRoom(0,0,1,1);
     _WORLD_MAP[3][3] = randomRoom(0,0,0,1);
+    cout << "Game world generation complete!\n\n";
 
-    cout << "Game world generation complete.\n\n";
+
     startup();
 
-	//bool isPlaying = true;
+ 	//bool isPlaying = true;
 	//while (isPlaying)
 	//{
 	//	isPlaying = RunGame();
@@ -229,6 +246,17 @@ bool processCMD(string cmd) {
 // *********************************
 // Helper functions
 // *********************************
+
+void waitProgressBar(string desc, int duration){
+    cout << "\n" << desc << " [";
+    for(int i=0;i<duration;i++) {
+            cout << "*";
+             Sleep (500);
+    }
+    cout << "]\n";
+}
+
+
 void showMap() {
     cout << "MAP REPORT\n";
     for(int i=0;i<4;i++){
