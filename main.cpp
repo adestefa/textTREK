@@ -40,7 +40,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.1.4";
+string _VER = "0.1.5";
 // command prompt show to user when they type
 string _CMD_PROMPT = "$textTREK>";
 // global string for all user input
@@ -83,7 +83,7 @@ int main()
     _WORLD_ITEMS[1] = Item("Sword of Shadows", "Kills undead", 200, 40, 0, 78);
     _WORLD_ITEMS[2] = Item("Shield of Blocking", "A durable shield that can block heavy blows", 300, 0, 0, 30);
     _WORLD_ITEMS[3] = Item("Wooden chair", "Just a boring chair", 30, 3, 0, 58);
-    cout << "Item loading complete!\n";
+    //cout << "Item loading complete!\n";
 
     // ____________________
     // populate world monsters
@@ -95,7 +95,7 @@ int main()
     _WORLD_MONSTERS[2] = Player("Skeleton", 1000, 10, 20, 4);
     _WORLD_MONSTERS[3] = Player("Orc", 200, 50, 200, 50);
     _WORLD_MONSTERS[4] = Player("Imp", 200, 7, 20, 2);
-    cout << "Monster loading complete!\n";
+    //cout << "Monster loading complete!\n";
 
      waitProgressBar("Creating world map", 7);
      // random room descriptions
@@ -137,7 +137,7 @@ int main()
     _WORLD_MAP[3][1] = randomRoom(1,0,1,0);
     _WORLD_MAP[3][2] = randomRoom(0,0,1,1);
     _WORLD_MAP[3][3] = randomRoom(0,0,0,1);
-    cout << "Game world generation complete!\n\n";
+    //cout << "Game world generation complete!\n\n";
 
 
     startup();
@@ -256,7 +256,7 @@ void waitProgressBar(string desc, int duration){
             cout << "*";
              Sleep (300);
     }
-    cout << "]\n";
+    cout << "] Complete!\n";
 }
 
 
