@@ -40,7 +40,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.1.3";
+string _VER = "0.1.4";
 // command prompt show to user when they type
 string _CMD_PROMPT = "$textTREK>";
 // global string for all user input
@@ -210,6 +210,9 @@ bool processCMD(string cmd) {
     } else if(cmd == "reset"){
         cout << "reset\n";
 
+    } else if(cmd == "stats"){
+         _User.specs();
+
     } else if(cmd == "search"){
         cout << "You search around the room...\n";
 
@@ -251,7 +254,7 @@ void waitProgressBar(string desc, int duration){
     cout << "\n" << desc << " [";
     for(int i=0;i<duration;i++) {
             cout << "*";
-             Sleep (500);
+             Sleep (300);
     }
     cout << "]\n";
 }
