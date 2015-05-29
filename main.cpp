@@ -1,14 +1,16 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <iostream>
+#include <fstream>
 #include <time.h>
 #include <stdlib.h>
+#include <windows.h>
 #include "Player.h"
 #include "Item.h"
 #include "Room.h"
-#include <vector>
-#include <windows.h>
-#include <iostream>
-#include <fstream>
+#include "Path.h"
+
 
 using namespace std;
 
@@ -22,6 +24,7 @@ void song1();
 void flashScreen();
 void giveGold(int gold);
 void textTREK();
+void nextRoom();
 void startup();
 void createMap();
 void playerDeath();
@@ -34,6 +37,8 @@ void draw(string ascii_art_file);
 void setBackground(string color);
 int randomNumber(int start, int limit);
 
+void enterRoom();
+void setRoom(int a, int b);
 
 string getFileContents (std::ifstream& File);
 
@@ -53,7 +58,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.2.5";
+string _VER = "0.2.6";
 // command prompt show to user when they type
 string _CMD_PROMPT = "$textTREK>";
 // global string for all user input
@@ -69,12 +74,6 @@ Player _WORLD_MONSTERS[5];
 // global double list made up of rooms to map the world
 Room _WORLD_MAP[5][5];
 
-// the user object
-Player _User;
-
-// stores the room the user is in
-int _ROOM_POINTER_A = 0;
-int _ROOM_POINTER_B = 0;
 
 
 // loading delay
@@ -94,6 +93,16 @@ string _GAME_ART_CHEST_CLOSED = "_GAME_ART_CHEST_CLOSED_1.txt";
 
 bool _GAME_OVER = false;
 bool _GAME_RESTART = false;
+
+
+// the user object
+Player _User;
+
+// stores the room the user is in
+int _ROOM_POINTER_A = 0;
+int _ROOM_POINTER_B = 0;
+Room _GAME_CURRENT_ROOM;
+
 
 // *********************************
 // Do the work!
@@ -142,6 +151,45 @@ void textTREK() {
     }
 
 }
+
+
+void setRoom(int a, int b) {
+     _ROOM_POINTER_A = a;
+      _ROOM_POINTER_B = b;
+      cout << "Setting room to " << a << "," << b << endl;
+    _GAME_CURRENT_ROOM = _WORLD_MAP[_ROOM_POINTER_A][_ROOM_POINTER_B];
+    enterRoom();
+}
+
+void enterRoom() {
+     string desc =  _GAME_CURRENT_ROOM._desc;
+     cout << desc << endl;
+}
+
+void nextRoom() {
+
+    // load he room into the global var
+     _GAME_CURRENT_ROOM = _WORLD_MAP[_ROOM_POINTER_A][_ROOM_POINTER_B];
+
+    // reset the counter if we reach the end of the map
+    if(_ROOM_POINTER_A == 4){
+        _ROOM_POINTER_A = 0;
+    } else {
+        _ROOM_POINTER_A++;
+    }
+
+   // reset the counter if we reach the end of the map
+    if(_ROOM_POINTER_B == 4){
+        _ROOM_POINTER_B = 0;
+    } else {
+        _ROOM_POINTER_B++;
+    }
+
+    enterRoom();
+
+
+}
+
 
 void playerDeath() {
     system("CLS");
@@ -249,7 +297,11 @@ bool processCMD(string cmd) {
     // -- GAME COMMANDS ---
     } else if(cmd == "go north"){
         cout << "You head north...\n";
-
+        if(_GAME_CURRENT_ROOM.hasDoor("north")) {
+            cout << "You grasp the iron handle and open the door...\n";
+        } else {
+            cout << "There is no door here.\n";
+        }
     } else if(cmd == "go south"){
         cout << "You head south...\n";
 
@@ -273,8 +325,15 @@ bool processCMD(string cmd) {
          _User.specs();
 
     } else if(cmd == "search"){
-        cout << "You search around the room...\n";
-
+        cout << "You search around the room";
+        Sleep(700);
+        cout << ".";
+        Sleep(700);
+        cout << ".";
+        Sleep(700);
+        cout << "\nR:" << _ROOM_POINTER_A << "," << _ROOM_POINTER_B << endl;
+        cout << _GAME_CURRENT_ROOM._desc << endl;
+        _GAME_CURRENT_ROOM.refeshCounts();
     } else if(cmd == "attack"){
        cout << "You raise your sword and start screaming as you lunge at your opponent.\n";
 
@@ -289,6 +348,22 @@ bool processCMD(string cmd) {
     } else if (cmd == "die") {
         playerDeath();
         cmd = "exit";
+    } else if (cmd == "next room") {
+        cout << "Enter Room:" << _ROOM_POINTER_A << "," << _ROOM_POINTER_B << endl;
+        nextRoom();
+    } else if (cmd == "current room") {
+        cout << "Room:" << _ROOM_POINTER_A << "," << _ROOM_POINTER_B << endl;
+        cout << _GAME_CURRENT_ROOM._desc << endl;
+        _GAME_CURRENT_ROOM.refeshCounts();
+
+    } else if (cmd == "set room") {
+        cout << "\n First:";
+        int a;
+        cin >> a;
+        cout << "\n Second:";
+        int b;
+        cin >> b;
+        setRoom(a,b);
 
     } else if(cmd == "summon chest"){
         draw(_GAME_ART_CHEST_CLOSED);
@@ -382,7 +457,7 @@ void showMap() {
     cout << "MAP REPORT\n";
     for(int i=0;i<4;i++){
         for(int b=0;b<4;b++){
-            cout << "Room#:" << i << "|" << b << endl;
+            cout << "\nRoom#:[" << i << "][" << b << "]";
             _WORLD_MAP[i][b].specs();
         }
     }
@@ -413,9 +488,12 @@ void playWindowsChime() {
 Player randomPlayer() {
     cout << "\n" << "Generating random character [";
     int age = randomNumber(15, 40);
+    Sleep(500);
     int damage = randomNumber(5, 15);
+    Sleep(500);
     int health = 50;
     int armor = randomNumber(5, 20);
+    Sleep(500);
     Player p("r", age, damage, health, armor);
     cout << "] Completed!";
     return p;
@@ -503,7 +581,7 @@ void populateWorld() {
      _ROOM_DESC[1]="The smell of Orc is strong in this damp room";
      _ROOM_DESC[2]="A large room with a tapestry on the South wall and a bookshelf and candle on the North. In the center of the room is a large table with eight chairs.";
      _ROOM_DESC[3]="A coat of arms is on the East wall";
-     _ROOM_DESC[4]="The North wall is covered with moss. There is a ";
+     _ROOM_DESC[4]="The North wall is covered with moss.";
      _ROOM_DESC[5]="The room appears empty other than a table with a platter. The smell of death and stale bread fills your nose.";
 }
 
