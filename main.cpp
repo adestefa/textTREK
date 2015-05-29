@@ -110,32 +110,35 @@ int main()
 void textTREK() {
     system("CLS");
     song1();
+    // Homage to War Games Movie
     cout << "\n\nShall we play a game?";
+    // user input
     string in;
     cin >> in;
-    if(in == "y" || in == "Y" || in == "yes" || in == "YES" || in == "Yes" || in == "YEs") {
-        welcome(); // display game splash screen and welcome message.
+    // development back door, skip intro for faster testing
+    if(in == "dev") {
+         _GAME_SHOW_LOADING = false;
+         populateWorld();
+         createMap();
+         startup();
+
+    // all valid "yes" responses (user wants to play game)
+    } else if(in == "y" || in == "Y" || in == "yes" || in == "YES" || in == "Yes" || in == "YEs") {
+        // set up game world
+        welcome();
         populateWorld();
         Beep(56, 100);
         createMap();
         Beep(56, 100);
         setBackground("grey");
         Beep(56, 100);
+        // start the game
         startup();
+
+    // user quit
     } else {
         cout << "\nQuitting so soon? At least you now have something in common with Sara Palin";
         cout << "\n\nbye.\n";
-
-        //Room r = randomRoom(0,0,1,0);
-        cout << "flip: " << randomFlop() << "," << randomFlop() << "\n";
-        cout << "flip: " << randomFlop() << "," <<  randomFlop() << "\n";
-         cout << "random: " << randomNumber(0, 10) << "," <<  randomNumber(0, 10) << "\n";
-          cout << "random: " << randomNumber(10, 50) << "," <<  randomNumber(10, 50) << "\n";
-        //bool isPlaying = true;
-        //while (isPlaying)
-        //{
-        //	isPlaying = RunGame();
-        //}
     }
 
 }

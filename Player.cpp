@@ -13,21 +13,25 @@
 
     Player::Player(string n){
         _name = n;
+        _gold = 0;
     }
     Player::Player(string n, int a){
         _name = n;
         _age = a;
+        _gold = 0;
     }
     Player::Player(string n, int a, int d){
         _name = n;
         _age = a;
         _damage = d;
+        _gold = 0;
     }
     Player::Player(string n, int a, int d, int h){
         _name = n;
         _age = a;
         _damage = d;
         _health = h;
+        _gold = 0;
     }
 
     Player::Player(string n, int a, int d, int h, int ar) {
@@ -36,6 +40,7 @@
         _damage = d;
         _health = h;
         _armor = ar;
+        _gold = 0;
     }
 
 
