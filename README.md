@@ -6,7 +6,10 @@ I always wanted to write my own text-driven adventure game, do more with less ph
 
 Kown commands:
 ============= 
- - go <direction>
+ - go north
+ - go south
+ - go east
+ - go west
  - stats
  - search
  - current room
