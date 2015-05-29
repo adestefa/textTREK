@@ -6,7 +6,7 @@
 	<iostream>
 	<string>
 
-1432873241 source:c:\users\admin\desktop\c++\texttrek\texttrek\main.cpp
+1432885020 source:c:\users\admin\desktop\c++\texttrek\texttrek\main.cpp
 	<iostream>
 	<string>
 	<time.h>
@@ -16,6 +16,8 @@
 	"Room.h"
 	<vector>
 	<windows.h>
+	<iostream>
+	<fstream>
 
 1432493039 c:\users\admin\desktop\c++\texttrek\texttrek\item.cpp
 	"Item.h"
@@ -23,11 +25,11 @@
 1432492971 c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
 	"Player.h"
 
-1432871625 c:\users\admin\desktop\c++\texttrek\texttrek\player.h
+1432884094 c:\users\admin\desktop\c++\texttrek\texttrek\player.h
 	<iostream>
 	<string>
 
-1432871923 source:c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
+1432884674 source:c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
 	"Player.h"
 
 1432872381 source:c:\users\admin\desktop\c++\texttrek\texttrek\room.cpp

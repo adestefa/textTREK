@@ -32,7 +32,8 @@ public:
     void setAge(int a);
     void setHealth(int h);
     void setDamage(int d);
-    void setGold(int g);
+    void setGold(int gold);
+    void giveGold(int gold);
     void setAromor(int ar);
 
 

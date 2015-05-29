@@ -7,6 +7,7 @@
         _damage = 0;
         _health = 0;
         _armor = 0;
+        _gold = 0;
     }
 
 
@@ -48,7 +49,8 @@
         "Age:" << _age << endl <<
         "Damage:" << _damage << endl <<
         "Health:" << _health << endl <<
-        "Armor:" << _armor << endl;
+        "Armor:" << _armor << endl <<
+        "Gold:"  << _gold << endl;
     }
 
     void Player::specsOneline() const {
@@ -57,7 +59,8 @@
         "Age:" << _age << ", " <<
         "Damage:" << _damage << ", " <<
         "Health:" << _health << ", " <<
-        "Armor:" << _armor;
+        "Armor:" << _armor << ", " <<
+        "Gold:"  << _gold;
     }
 
 
@@ -92,8 +95,11 @@
     void Player::setDamage(int d){
         _damage = d;
     }
-    void Player::setGold(int g){
-        _gold = g;
+    void Player::setGold(int gold){
+        _gold = gold;
+    }
+    void Player::giveGold(int gold){
+        _gold = _gold + gold;
     }
     void Player::setAromor(int ar){
         _armor = ar;

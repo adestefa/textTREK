@@ -7,7 +7,8 @@
 #include "Room.h"
 #include <vector>
 #include <windows.h>
-
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -18,15 +19,23 @@ void start();   // starts game
 void welcome(); // msg
 void showMap();
 void song1();
+void flashScreen();
+void giveGold(int gold);
+void textTREK();
 void startup();
 void createMap();
+void playerDeath();
 void populateWorld();
 int randomFlop();
 void getUserInput();
 void playWindowsChime();
 bool processCMD(string cmd);
+void draw(string ascii_art_file);
 void setBackground(string color);
 int randomNumber(int start, int limit);
+
+
+string getFileContents (std::ifstream& File);
 
 void waitProgressBar(string desc, int duration);
 
@@ -44,7 +53,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.2.0";
+string _VER = "0.2.5";
 // command prompt show to user when they type
 string _CMD_PROMPT = "$textTREK>";
 // global string for all user input
@@ -79,26 +88,39 @@ int _NUM_ROOM_DESC = 6;
 string _ROOM_DESC[6];
 
 
+string _GAME_ART_CHEST_OPEN = "_GAME_ART_CHEST_OPEN_1.txt";
+string _GAME_ART_CHEST_OPEN_2 = "_GAME_ART_CHEST_OPEN_2.txt";
+string _GAME_ART_CHEST_CLOSED = "_GAME_ART_CHEST_CLOSED_1.txt";
+
+bool _GAME_OVER = false;
+bool _GAME_RESTART = false;
+
 // *********************************
 // Do the work!
 // *********************************
 
 int main()
 {
-    song1();
     srand ( time(0) );
-    Beep(200, 1000);
+    textTREK();
+	system("PAUSE");
+	return 0;
+}
+
+void textTREK() {
+    system("CLS");
+    song1();
     cout << "\n\nShall we play a game?";
     string in;
     cin >> in;
     if(in == "y" || in == "Y" || in == "yes" || in == "YES" || in == "Yes" || in == "YEs") {
         welcome(); // display game splash screen and welcome message.
         populateWorld();
-        Beep(400, 600);
+        Beep(56, 100);
         createMap();
-        Beep(500, 600);
-        setBackground("green");
-        Sleep(300);
+        Beep(56, 100);
+        setBackground("grey");
+        Beep(56, 100);
         startup();
     } else {
         cout << "\nQuitting so soon? At least you now have something in common with Sara Palin";
@@ -115,9 +137,31 @@ int main()
         //	isPlaying = RunGame();
         //}
     }
-	system("PAUSE");
-	return 0;
+
 }
+
+void playerDeath() {
+    system("CLS");
+    Beep(57, 100);
+    Beep(45, 100);
+    Beep(54, 1000);
+    setBackground("red");
+    cout << "\n\n\n\n\n\n\n\n\n\t\t\t\t";
+    cout << "YOU DIED!";
+    cout << "\n\n\t\t\t\tContinue?";
+
+    string in;
+    cin >> in;
+    if(in == "y" || in == "Y" || in == "yes" || in == "YES" || in == "Yes" || in == "YEs") {
+        system("CLS");
+        setBackground("grey");
+        _GAME_RESTART = true;
+    } else {
+        setBackground("grey");
+        _GAME_OVER = true;
+    }
+}
+
 
 
 // *********************************
@@ -136,15 +180,18 @@ void welcome() {
     cout << msg;
 }
 
+
+
 /**
     Start game loop
 */
 void startup() {
     setBackground("black");
+    system("CLS");
     cout << "\n\n           ADVENTURE AWAITS!\n\n";
     cout << "\n What do they call you?>";
-    Beep(900, 600);
-    Beep(900, 600);
+    Beep(45, 1000);
+
     string playerName;
     cin >> playerName;
     cout << "\n";
@@ -159,20 +206,26 @@ void startup() {
     getUserInput();
 
 
+
 }
 /**
     function to receive user commands
      - called recursively until 'exit' command is found
 */
 void getUserInput() {
-    string in = "reset";
-    getline(cin, in);
-    bool exitCMD = processCMD(in);
-    // moved prompt here to avoid empty duplicate on startup
-    cout << "\n" << _CMD_PROMPT;
-    // continue to process input until exit command found
-    if (!exitCMD) {
-        getUserInput();
+    if(_GAME_RESTART) {
+          textTREK();
+    } else {
+        Beep(45, 800);
+        string in = "reset";
+        getline(cin, in);
+        bool exitCMD = processCMD(in);
+        // moved prompt here to avoid empty duplicate on startup
+        cout << "\n" << _CMD_PROMPT;
+        // continue to process input until exit command found
+        if (!_GAME_OVER && !exitCMD) {
+            getUserInput();
+        }
     }
 }
 
@@ -203,8 +256,12 @@ bool processCMD(string cmd) {
     } else if(cmd == "go west"){
         cout << "You head west\n";
 
+    } else if (cmd == "clear") {
+        system("CLS");
+
     } else if(cmd == "reset"){
         cout << "reset\n";
+        setBackground("black");
 
     } else if(cmd == "flee"){
 	cout << "As a true coward, you scuttle away.";
@@ -226,6 +283,14 @@ bool processCMD(string cmd) {
     // map test
     } else if (cmd == "map") {
          showMap();
+    } else if (cmd == "die") {
+        playerDeath();
+        cmd = "exit";
+
+    } else if(cmd == "summon chest"){
+        draw(_GAME_ART_CHEST_CLOSED);
+    } else if(cmd == "unlock chest"){
+        draw(_GAME_ART_CHEST_OPEN_2);
 
     // color tests
     } else if (cmd == "red") {
@@ -237,13 +302,17 @@ bool processCMD(string cmd) {
     } else if (cmd == "black") {
        setBackground("black");
     // play the windows chime sound
-    } else if (cmd == "windows chime") {
+    } else if (cmd == "chime") {
        playWindowsChime();
 
 
     // user wants to quit, exit the game.
-    } else if(cmd == "exit"){
+    } else if(cmd == "quit"){
         cout << "Giving up is it? OK, well see ya later.\n";
+        exitCMD = true;
+
+    } else if(cmd == "exit"){
+        cout << "bye.\n";
         exitCMD = true;
 
     }
@@ -254,6 +323,44 @@ bool processCMD(string cmd) {
 // *********************************
 // Helper functions
 // *********************************
+
+void draw(string ascii_art_file) {
+    //std::ifstream Reader;
+    if(ascii_art_file == _GAME_ART_CHEST_OPEN){
+        std::ifstream Reader("_GAME_ART_CHEST_OPEN_1.txt");
+        std::string Art = getFileContents (Reader);       //Get file
+        std::cout << Art << std::endl;               //Print it to the screen
+        Reader.close ();                  //Open file
+        giveGold(50);
+    } else if(ascii_art_file == _GAME_ART_CHEST_OPEN_2){
+        std::ifstream Reader("_GAME_ART_CHEST_OPEN_2.txt");
+        std::string Art = getFileContents (Reader);       //Get file
+        std::cout << Art << std::endl;               //Print it to the screen
+        Reader.close ();                  //Open file
+        giveGold(100);
+
+    } else if(ascii_art_file == _GAME_ART_CHEST_CLOSED){
+        std::ifstream Reader("_GAME_ART_CHEST_CLOSED_1.txt");
+        std::string Art = getFileContents (Reader);       //Get file
+        std::cout << Art << std::endl;               //Print it to the screen
+        Reader.close ();
+
+    }
+
+}
+
+void giveGold(int gold){
+
+      cout << "You found " << gold << " gold!\n";
+     _User.giveGold(gold);
+     flashScreen();
+}
+
+void flashScreen(){
+    setBackground("grey");
+    Sleep(300);
+    setBackground("black");
+}
 
 // show a progress bar when waiting
 void waitProgressBar(string desc, int duration){
@@ -375,7 +482,7 @@ void populateWorld() {
     _WORLD_ITEMS[2] = Item("Shield of Blocking", "A durable shield that can block heavy blows", 300, 0, 0, 30);
     _WORLD_ITEMS[3] = Item("Wooden chair", "Just a boring chair", 30, 3, 0, 58);
     //cout << "Item loading complete!\n";
-    Beep(300, 600);
+    Beep(56, 100);
     // ____________________
     // populate world monsters
     // --------------------
@@ -438,13 +545,51 @@ void createMap(){
 
 
 void song1() {
-    Beep(456, 100);
-    Beep(213, 100);
-    Beep(654, 100);
-    Beep(245, 100);
-    Beep(243, 100);
-    Beep(452, 100);
-    Beep(457, 100);
-    Beep(45, 100);
+    Beep(56, 100);
+    Beep(13, 100);
     Beep(54, 100);
+    Beep(52, 100);
+    Beep(57, 100);
+    Beep(45, 100);
+    Beep(54, 1000);
 }
+
+
+std::string getFileContents (std::ifstream& File)
+{
+    std::string Lines = "";        //All lines
+
+    if (File)                      //Check if everything is good
+    {
+	while (File.good ())
+	{
+	    std::string TempLine;                  //Temp line
+	    std::getline (File , TempLine);        //Get temp line
+	    TempLine += "\n";                      //Add newline character
+
+	    Lines += TempLine;                     //Add newline
+	}
+	return Lines;
+    }
+    else                           //Return error
+    {
+	return "ERROR File does not exist.";
+    }
+}
+
+
+/**
+void gotoXY(int x, int y, string text)
+{
+	CursorPosition.X = x;
+	CursorPosition.Y = y;
+	SetConsoleCursorPosition(console,CursorPosition);
+	cout << text;
+}
+
+void gotoXY(int x, int y)
+{
+	CursorPosition.X = x;
+	CursorPosition.Y = y;
+}
+*/
