@@ -42,18 +42,40 @@ using namespace std;
 
     }
 
+    void Room::refeshCounts() {
+        int c=0;
+        for(int i=0;i<5;i++){
+            string n = _monsters[i].getName();
+            if(n != ""){
+                c++;
+            }
+        }
+        _numOfMonsters = c;
+
+        c=0;
+        for(int i=0;i<5;i++){
+            string n = _items[i].getName();
+            if(n != ""){
+                c++;
+            }
+        }
+        _numOfItems = c;
+
+      cout << "mons:" << _numOfMonsters << " items:" << _numOfItems << endl;
+    }
+
     // returns if this room have a door in a given cardinal direction
     int Room::hasDoor(string direction) {
-        if(direction == "NORTH") {
+        if(direction == "north") {
                 cout << "He wants to go NORTH I say!" << endl;
                 return _doors[0];
-           } else if (direction == "SOUTH") {
+           } else if (direction == "south") {
                 cout << "HE wants to go South I say!" << endl;
                  return _doors[1];
-           } else if (direction == "EAST") {
+           } else if (direction == "east") {
                 cout << "He wants to go EAST I say!" << endl;
                  return _doors[2];
-           } else if (direction == "WEST") {
+           } else if (direction == "west") {
                 cout << "He wants to go West I say!" << endl;
                  return _doors[3];
            }
@@ -61,31 +83,9 @@ using namespace std;
     }
 
 
-    void Room::specs() const {
-        cout << "\n\n" << _desc << endl;
-
-         int numMon = 0;
-         string out = "";
-         for(int m = 0; m < 5; m++) {
-                string name = _monsters[m].getName();
-                if (name != "") {
-                    out = out + name + "\n";
-                    numMon++;
-                }
-        }
-        cout << "Monsters:" << numMon << "\n" << out;
-
-        out = "";
-        int numItems = 0;
-        for(int i = 0; i < 5; i++) {
-               string name = _items[i].getName();
-               if (name != "") {
-                    out = out + name + "\n";
-                    numItems++;
-               }
-        }
-        cout << "Items:" << numItems << "\n" << out;
-
+    void Room::specs() {
+        cout << "\n" << _desc << endl;
+        refeshCounts();
     }
 
     // report all things in this room

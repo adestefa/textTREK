@@ -28,11 +28,14 @@ public:
     Player _monsters[5];
     Item _items[5];
     int _doors[5];
+    int _numOfMonsters;
+    int _numOfItems;
 
     // member functions
     int hasDoor(string);
     void searchRoom();
-    void specs() const;
+    void specs();
+    void refeshCounts();
 
 private:
 
