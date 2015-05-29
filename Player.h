@@ -19,6 +19,7 @@ public:
     ~Player();
 
     void specs() const;
+    void specsOneline() const;
 
     string getName() const;
     int getAge() const;

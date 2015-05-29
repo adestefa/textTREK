@@ -3,7 +3,7 @@
 
     // constructors!
     Item::Item() {
-        _name = "Nothing";
+        _name = "";
         _desc = "Thin air";
         _heal = 0;
         _damage = 0;

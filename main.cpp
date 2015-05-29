@@ -17,12 +17,16 @@ using namespace std;
 void start();   // starts game
 void welcome(); // msg
 void showMap();
+void song1();
 void startup();
+void createMap();
+void populateWorld();
+int randomFlop();
 void getUserInput();
 void playWindowsChime();
 bool processCMD(string cmd);
 void setBackground(string color);
-int randomNumber(int limit, bool omitZero);
+int randomNumber(int start, int limit);
 
 void waitProgressBar(string desc, int duration);
 
@@ -40,7 +44,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.1.5";
+string _VER = "0.2.0";
 // command prompt show to user when they type
 string _CMD_PROMPT = "$textTREK>";
 // global string for all user input
@@ -56,14 +60,23 @@ Player _WORLD_MONSTERS[5];
 // global double list made up of rooms to map the world
 Room _WORLD_MAP[5][5];
 
-// in order to randomly generate rooms
-// we need a list of descriptions we can
-// randomly select from
-string _ROOM_DESC[6];
-int _NUM_ROOM_DESC = 6;
+// the user object
+Player _User;
 
-// introduce our player hero
-Player _User = randomPlayer();
+// stores the room the user is in
+int _ROOM_POINTER_A = 0;
+int _ROOM_POINTER_B = 0;
+
+
+// loading delay
+int _GAME_LOADING_DELAY = 10;
+
+// show loading progress bars when true
+bool _GAME_SHOW_LOADING = true;
+
+// list of room descriptions
+int _NUM_ROOM_DESC = 6;
+string _ROOM_DESC[6];
 
 
 // *********************************
@@ -72,10 +85,288 @@ Player _User = randomPlayer();
 
 int main()
 {
+    song1();
+    srand ( time(0) );
+    Beep(200, 1000);
+    cout << "\n\nShall we play a game?";
+    string in;
+    cin >> in;
+    if(in == "y" || in == "Y" || in == "yes" || in == "YES" || in == "Yes" || in == "YEs") {
+        welcome(); // display game splash screen and welcome message.
+        populateWorld();
+        Beep(400, 600);
+        createMap();
+        Beep(500, 600);
+        setBackground("green");
+        Sleep(300);
+        startup();
+    } else {
+        cout << "\nQuitting so soon? At least you now have something in common with Sara Palin";
+        cout << "\n\nbye.\n";
+
+        //Room r = randomRoom(0,0,1,0);
+        cout << "flip: " << randomFlop() << "," << randomFlop() << "\n";
+        cout << "flip: " << randomFlop() << "," <<  randomFlop() << "\n";
+         cout << "random: " << randomNumber(0, 10) << "," <<  randomNumber(0, 10) << "\n";
+          cout << "random: " << randomNumber(10, 50) << "," <<  randomNumber(10, 50) << "\n";
+        //bool isPlaying = true;
+        //while (isPlaying)
+        //{
+        //	isPlaying = RunGame();
+        //}
+    }
+	system("PAUSE");
+	return 0;
+}
 
 
-    welcome(); // display game splash screen and welcome message.
-    // ____________________
+// *********************************
+// startup and text input functions
+// *********************************
+
+/**
+    Game splash screen, name and legal
+*/
+void welcome() {
+    system("CLS");
+    string msg = "\n                textTREK v" + _VER + "\n\n";
+    msg = msg + "textTREK: A Simple Text Adventure\n";
+    msg = msg + "Copyright (c) 2015 Bitrot, Inc\n";
+    msg = msg + "textTREK is a registered trademark of Bitrot, Inc.\n\n";
+    cout << msg;
+}
+
+/**
+    Start game loop
+*/
+void startup() {
+    setBackground("black");
+    cout << "\n\n           ADVENTURE AWAITS!\n\n";
+    cout << "\n What do they call you?>";
+    Beep(900, 600);
+    Beep(900, 600);
+    string playerName;
+    cin >> playerName;
+    cout << "\n";
+    _User = randomPlayer();
+    _User.setName(playerName);
+    _User.specs();
+    cout << "\n\n Now it begins...\n\n";
+    system("PAUSE");
+    system("cls");
+    cout << "\n\n\nYou are standing in an open field, the sun is setting\n in the West and there is a cave to your East.\n\n";
+
+    getUserInput();
+
+
+}
+/**
+    function to receive user commands
+     - called recursively until 'exit' command is found
+*/
+void getUserInput() {
+    string in = "reset";
+    getline(cin, in);
+    bool exitCMD = processCMD(in);
+    // moved prompt here to avoid empty duplicate on startup
+    cout << "\n" << _CMD_PROMPT;
+    // continue to process input until exit command found
+    if (!exitCMD) {
+        getUserInput();
+    }
+}
+
+/**
+    Token Parser
+    here we process user input and translate into game commands
+*/
+bool processCMD(string cmd) {
+
+    // we will quit the game when true
+    bool exitCMD = false;
+
+    // Make sure input is not empty
+    if(cmd == "" || cmd.empty()){
+       // cout << "\nSorry, that is not a valid command.\n";
+
+
+    // -- GAME COMMANDS ---
+    } else if(cmd == "go north"){
+        cout << "You head north...\n";
+
+    } else if(cmd == "go south"){
+        cout << "You head south...\n";
+
+    } else if(cmd == "go east"){
+        cout << "You head east...\n";
+
+    } else if(cmd == "go west"){
+        cout << "You head west\n";
+
+    } else if(cmd == "reset"){
+        cout << "reset\n";
+
+    } else if(cmd == "flee"){
+	cout << "As a true coward, you scuttle away.";
+
+    } else if(cmd == "stats"){
+         _User.specs();
+
+    } else if(cmd == "search"){
+        cout << "You search around the room...\n";
+
+    } else if(cmd == "attack"){
+       cout << "You raise your sword and start screaming as you lunge at your opponent.\n";
+
+    } else if(cmd == "help"){
+        cout << "valid commands: 'North', 'South', 'East', 'West', 'pickup' \n\n";
+
+
+    // **secret commands**
+    // map test
+    } else if (cmd == "map") {
+         showMap();
+
+    // color tests
+    } else if (cmd == "red") {
+       setBackground("red");
+    } else if (cmd == "green") {
+       setBackground("green");
+    } else if (cmd == "grey") {
+       setBackground("grey");
+    } else if (cmd == "black") {
+       setBackground("black");
+    // play the windows chime sound
+    } else if (cmd == "windows chime") {
+       playWindowsChime();
+
+
+    // user wants to quit, exit the game.
+    } else if(cmd == "exit"){
+        cout << "Giving up is it? OK, well see ya later.\n";
+        exitCMD = true;
+
+    }
+    return exitCMD;
+}
+
+
+// *********************************
+// Helper functions
+// *********************************
+
+// show a progress bar when waiting
+void waitProgressBar(string desc, int duration){
+    if (_GAME_SHOW_LOADING) {
+        cout << "\n" << desc << " [";
+        for(int i=0;i<duration;i++) {
+                cout << "*";
+                Sleep (300);
+        }
+        cout << "] Complete!\n";
+    }
+}
+
+// print out double array of room objects for debugging
+void showMap() {
+    cout << "MAP REPORT\n";
+    for(int i=0;i<4;i++){
+        for(int b=0;b<4;b++){
+            cout << "Room#:" << i << "|" << b << endl;
+            _WORLD_MAP[i][b].specs();
+        }
+    }
+}
+// using this we can signify action, red for damage, green for a winning blow or gold for finding loot.
+void setBackground(string color) {
+    if (color == "red"){
+        system("COLOR 40"); //red background
+    } else if(color == "grey"){
+        system("COLOR 70"); // gray background
+    } else if(color == "green"){
+        system("COLOR 20"); // green background
+    } else {
+        system("COLOR 07");
+    }
+    //TODO: add gold color..
+}
+// play windows chime sound (windows machines only)
+void playWindowsChime() {
+    cout<<"\a\a\a\a\a\a\a";
+}
+
+
+// *********************************
+// randomizer object factories
+// *********************************
+
+Player randomPlayer() {
+    cout << "\n" << "Generating random character [";
+    int age = randomNumber(15, 40);
+    int damage = randomNumber(5, 15);
+    int health = 50;
+    int armor = randomNumber(5, 20);
+    Player p("r", age, damage, health, armor);
+    cout << "] Completed!";
+    return p;
+}
+Player randomMonster() {
+    return _WORLD_MONSTERS[randomNumber(0, 4)];
+}
+Item randomItem() {
+    return _WORLD_ITEMS[randomNumber(0, 3)];
+}
+//Returns a Room object with random contents
+Room randomRoom(int north, int south, int east, int west) {
+
+
+    // generate a Room object with a random description and defined doors
+    Room r(_ROOM_DESC[randomNumber(0, _NUM_ROOM_DESC)], north, south, east, west);
+
+    // randomly add random monster
+    if(randomFlop()) {
+        // add monsters
+        r._monsters[0] = randomMonster();
+    }
+
+    // randomly add random item
+    if(randomFlop()) {
+        // add items
+        r._items[0] = randomItem();
+     }
+
+    // return the Room
+    return r;
+}
+
+// given a limit integer, and if you should omit zero, will return a random number between 1 and 'limit'
+int randomNumber(int start, int limit) {
+     Sleep(_GAME_LOADING_DELAY);
+    cout << "*";
+    int ranNum = rand() % limit; // does the work
+    if (ranNum < start) {
+        return start;
+    }
+    return ranNum;
+
+}
+
+
+
+// returns 0 or 1,
+// use the division of a larger number to
+// generate more entropy.
+int randomFlop() {
+    Sleep(_GAME_LOADING_DELAY);
+    int ranNum = rand() % 50;
+    if (ranNum < 25){
+     return 0;
+    }
+    return 1;
+}
+
+void populateWorld() {
+// ____________________
     // populate world items
     // --------------------
 	waitProgressBar("Populating world items", 4);
@@ -84,7 +375,7 @@ int main()
     _WORLD_ITEMS[2] = Item("Shield of Blocking", "A durable shield that can block heavy blows", 300, 0, 0, 30);
     _WORLD_ITEMS[3] = Item("Wooden chair", "Just a boring chair", 30, 3, 0, 58);
     //cout << "Item loading complete!\n";
-
+    Beep(300, 600);
     // ____________________
     // populate world monsters
     // --------------------
@@ -97,15 +388,19 @@ int main()
     _WORLD_MONSTERS[4] = Player("Imp", 200, 7, 20, 2);
     //cout << "Monster loading complete!\n";
 
-     waitProgressBar("Creating world map", 7);
-     // random room descriptions
+    // random room descriptions
      _ROOM_DESC[0]="A dark room lit with a torch on the North wall";
      _ROOM_DESC[1]="The smell of Orc is strong in this damp room";
      _ROOM_DESC[2]="A large room with a tapestry on the South wall and a bookshelf and candle on the North. In the center of the room is a large table with eight chairs.";
      _ROOM_DESC[3]="A coat of arms is on the East wall";
      _ROOM_DESC[4]="The North wall is covered with moss. There is a ";
      _ROOM_DESC[5]="The room appears empty other than a table with a platter. The smell of death and stale bread fills your nose.";
+}
 
+
+void createMap(){
+
+    cout << "\n" << "Creating world map" << " [";
      // ____________________
      // map first row
      // --------------------
@@ -137,208 +432,16 @@ int main()
     _WORLD_MAP[3][1] = randomRoom(1,0,1,0);
     _WORLD_MAP[3][2] = randomRoom(0,0,1,1);
     _WORLD_MAP[3][3] = randomRoom(0,0,0,1);
-    //cout << "Game world generation complete!\n\n";
-
-
-    startup();
-
- 	//bool isPlaying = true;
-	//while (isPlaying)
-	//{
-	//	isPlaying = RunGame();
-	//}
-	system("PAUSE");
-	return 0;
-}
-
-
-// *********************************
-// startup and text input functions
-// *********************************
-
-
-void welcome() {
-    string msg = "\n                textTREK v" + _VER + "\n\n";
-    msg = msg + "textTREK: A Simple Text Adventure\n";
-    msg = msg + "Copyright (c) 2015 Bitrot, Inc\n";
-    msg = msg + "textTREK is a registered trademark of Bitrot, Inc.\n\n";
-    cout << msg;
-}
-void startup() {
-    cout << "\n\n           ADVENTURE AWAITS!\n\n";
-    cout << "\n First we need to know our hero's new name>";
-    string playerName;
-    cin >> playerName;
-    _User.setName(playerName);
-     cout << "\n" << _User.getName() << " has joined the game! generating your new stats...\n";
-    _User.specs();
-    cout << "\n\n Now it begins...\n\n";
-    system("PAUSE");
-    system("cls");
-    cout << "\n\n\nYou are standing in an open field, the sun is setting in the West and there is a cave to your East.\n\n";
-    getUserInput();
-
-}
-void getUserInput() {
-    string in = "reset";
-    getline(cin, in);
-    bool exitCMD = processCMD(in);
-    // moved prompt here to avoid empty duplicate
-    cout << "\n" << _CMD_PROMPT;
-    if (!exitCMD) {
-        getUserInput();
-    }
-}
-bool processCMD(string cmd) {
-    bool exitCMD = false;
-
-    if(cmd == "" || cmd.empty()){
-       // cout << "\nSorry, that is not a valid command.\n";
-
-    } else if(cmd == "go north"){
-        cout << "You head north...\n";
-
-    } else if(cmd == "go south"){
-        cout << "You head south...\n";
-
-    } else if(cmd == "go east"){
-        cout << "You head east...\n";
-
-    } else if(cmd == "go west"){
-        cout << "You head west\n";
-
-    } else if(cmd == "reset"){
-        cout << "reset\n";
-
-    } else if(cmd == "flee"){
-	cout << "As a true coward, you scuttle away.";
-
-    } else if(cmd == "stats"){
-         _User.specs();
-
-    } else if(cmd == "search"){
-        cout << "You search around the room...\n";
-
-    } else if(cmd == "attack"){
-       cout << "You raise your sword and start screaming as you lunge at your opponent.\n";
-
-    } else if(cmd == "help"){
-        cout << "valid commands: 'North', 'South', 'East', 'West', 'pickup' \n\n";
-
-    } else if (cmd == "map") {
-         showMap();
-
-    } else if (cmd == "red") {
-       setBackground("red");
-    } else if (cmd == "green") {
-       setBackground("green");
-    } else if (cmd == "grey") {
-       setBackground("grey");
-    } else if (cmd == "black") {
-       setBackground("black");
-    } else if (cmd == "windows chime") {
-       playWindowsChime();
-
-
-    } else if(cmd == "exit"){
-        cout << "Giving up is it? OK, well see ya later.\n";
-        exitCMD = true;
-
-    }
-    return exitCMD;
-}
-
-
-// *********************************
-// Helper functions
-// *********************************
-
-void waitProgressBar(string desc, int duration){
-    cout << "\n" << desc << " [";
-    for(int i=0;i<duration;i++) {
-            cout << "*";
-             Sleep (300);
-    }
     cout << "] Complete!\n";
+
 }
 
 
-void showMap() {
-    cout << "MAP REPORT\n";
-    for(int i=0;i<4;i++){
-        for(int b=0;b<4;b++){
-            _WORLD_MAP[i][b].specs();
-        }
-    }
-}
-// using this we can signify action, red for damage, green for a winning blow or gold for finding loot.
-void setBackground(string color) {
-    if (color == "red"){
-        system("COLOR 40"); //red background
-    } else if(color == "grey"){
-        system("COLOR 70"); // gray background
-    } else if(color == "green"){
-        system("COLOR 20"); // green background
-    } else {
-        system("COLOR 07");
-    }
-    //TODO: add gold color..
-}
-
-void playWindowsChime() {
-    cout<<"\a\a\a\a\a\a\a";
-}
-
-
-// *********************************
-// randomizer object factories
-// *********************************
-
-Player randomPlayer() {
-    int age = randomNumber(100, true);
-    int damage = randomNumber(30, true);
-    int health = 50;
-    int armor = randomNumber(30, false);
-    Player p("r", age, damage, health, armor);
-    return p;
-}
-Player randomMonster() {
-    return _WORLD_MONSTERS[randomNumber(4, false)];
-}
-Item randomItem() {
-    return _WORLD_ITEMS[randomNumber(3, false)];
-}
-//Returns a Room object with random contents
-Room randomRoom(int north, int south, int east, int west) {
-
-    // generate a Room object with a random description and defined doors
-    Room r(_ROOM_DESC[randomNumber(_NUM_ROOM_DESC, true)], north, south, east, west);
-
-    // randomly add random monster
-    if(randomNumber(1, false)) {
-        // add monsters
-        r._monsters[0] = randomMonster();
-    }
-
-    // randomly add random item
-    if(randomNumber(1, false)) {
-        // add items
-        r._items[0] = randomItem();
-     }
-
-    // return the Room
-    return r;
-}
-
-// given a limit integer, and if you should omit zero, will return a random number between 1 and 'limit'
-int randomNumber(int limit, bool omitZero) {
-    srand ( time(NULL) );
-    int ranNum = rand() % limit; // does the work
-
-    // sometimes you feel like a 'Not' and sometimes you don't
-    if(ranNum == 0 && omitZero) {
-            return 1;
-    } else {
-        return ranNum;
-    }
+void song1() {
+    Beep(400, 100);
+    Beep(200, 200);
+    Beep(600, 100);
+    Beep(800, 300);
+    Beep(200, 100);
+    Beep(600, 200);
 }

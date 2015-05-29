@@ -62,19 +62,29 @@ using namespace std;
 
 
     void Room::specs() const {
-        cout << _desc << endl;
+        cout << "\n\n" << _desc << endl;
 
-        cout << "Monsters:\n";
+         int numMon = 0;
+         string out = "";
          for(int m = 0; m < 5; m++) {
                 string name = _monsters[m].getName();
-                cout << name << endl;
+                if (name != "") {
+                    out = out + name + "\n";
+                    numMon++;
+                }
         }
-        cout << "Items:\n";
-        for(int m = 0; m < 5; m++) {
-                string name = _items[m].getName();
-                cout << name << endl;
-        }
+        cout << "Monsters:" << numMon << "\n" << out;
 
+        out = "";
+        int numItems = 0;
+        for(int i = 0; i < 5; i++) {
+               string name = _items[i].getName();
+               if (name != "") {
+                    out = out + name + "\n";
+                    numItems++;
+               }
+        }
+        cout << "Items:" << numItems << "\n" << out;
 
     }
 

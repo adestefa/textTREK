@@ -43,16 +43,22 @@
     }
 
     void Player::specs() const {
-        cout << endl <<
+        cout << endl << endl <<
         "Player:" << _name << endl <<
         "Age:" << _age << endl <<
         "Damage:" << _damage << endl <<
         "Health:" << _health << endl <<
-        "Armor:" << _armor << endl << endl;
-
-
+        "Armor:" << _armor << endl;
     }
 
+    void Player::specsOneline() const {
+        cout <<
+        "Player:" << _name << ", " <<
+        "Age:" << _age << ", " <<
+        "Damage:" << _damage << ", " <<
+        "Health:" << _health << ", " <<
+        "Armor:" << _armor;
+    }
 
 
     string Player::getName() const{
