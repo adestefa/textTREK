@@ -1,5 +1,6 @@
 #include "Map.h"
-
+  // Not used yet
+  // TODO: explore using this class to define a path through a level
 
     // constructors!
     Path::Path() {
