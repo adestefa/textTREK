@@ -26,6 +26,7 @@
 		<Unit filename="File1.txt" />
 		<Unit filename="Item.cpp" />
 		<Unit filename="Item.h" />
+		<Unit filename="Map.h" />
 		<Unit filename="Player.cpp" />
 		<Unit filename="Player.h" />
 		<Unit filename="Room.cpp" />

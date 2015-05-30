@@ -50,7 +50,7 @@
 
     void Player::specs() const {
         cout << endl << endl <<
-        "Player:" << _name << endl <<
+         _name << endl <<
         "Age:" << _age << endl <<
         "Damage:" << _damage << endl <<
         "Health:" << _health << endl <<

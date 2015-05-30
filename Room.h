@@ -33,6 +33,7 @@ public:
 
     // member functions
     int hasDoor(string);
+    void getDoors();
     void searchRoom();
     void specs();
     void refeshCounts();

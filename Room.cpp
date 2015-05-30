@@ -9,16 +9,16 @@ using namespace std;
         _desc = "Empty room";
         _doors[0]= 1;
         _doors[1]= 0;
-        _doors[3]= 0; // switch index to match phonic (North,South,East,West)
-        _doors[2]= 0;
+        _doors[2]= 0; // switch index to match phonic (North,South,East,West)
+        _doors[3]= 0;
     }
 
     Room::Room(string desc){
         _desc = desc;
         _doors[0]= 1;
         _doors[1]= 0;
-        _doors[3]= 0;
         _doors[2]= 0;
+        _doors[3]= 0;
     }
 
 
@@ -26,8 +26,8 @@ using namespace std;
         _desc = desc;
         _doors[0]= north;
         _doors[1]= south;
-        _doors[3]= east;
-        _doors[2]= west;
+        _doors[2]= east;
+        _doors[3]= west;
 
     }
 
@@ -37,8 +37,8 @@ using namespace std;
         _items[5] = items[5];
         _doors[0]= north;
         _doors[1]= south;
-        _doors[3]= east;
-        _doors[2]= west;
+        _doors[2]= east;
+        _doors[3]= west;
 
     }
 
@@ -64,28 +64,30 @@ using namespace std;
       cout << "mons:" << _numOfMonsters << " items:" << _numOfItems << endl;
     }
 
+    void Room::getDoors(){
+        cout << "[" << _doors[0] << "," << _doors[1] << "," << _doors[2] << "," << _doors[3] << "]\n";
+
+    }
+
     // returns if this room have a door in a given cardinal direction
     int Room::hasDoor(string direction) {
         if(direction == "north") {
-                cout << "He wants to go NORTH I say!" << endl;
-                return _doors[0];
-           } else if (direction == "south") {
-                cout << "HE wants to go South I say!" << endl;
-                 return _doors[1];
-           } else if (direction == "east") {
-                cout << "He wants to go EAST I say!" << endl;
-                 return _doors[2];
-           } else if (direction == "west") {
-                cout << "He wants to go West I say!" << endl;
-                 return _doors[3];
-           }
-          return 0;
+            return _doors[0];
+        } else if (direction == "south") {
+            return _doors[1];
+        } else if (direction == "east") {
+            return _doors[2];
+        } else if (direction == "west") {
+            return _doors[3];
+        }
+        return 0;
     }
 
 
     void Room::specs() {
         cout << "\n" << _desc << endl;
         refeshCounts();
+        getDoors();
     }
 
     // report all things in this room

@@ -30,6 +30,7 @@ void createMap();
 void playerDeath();
 void populateWorld();
 int randomFlop();
+void tryDoor(string direction);
 void getUserInput();
 void playWindowsChime();
 bool processCMD(string cmd);
@@ -58,7 +59,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.2.6";
+string _VER = "0.2.7";
 // command prompt show to user when they type
 string _CMD_PROMPT = "$textTREK>";
 // global string for all user input
@@ -116,6 +117,10 @@ int main()
 	return 0;
 }
 
+
+/**
+    Game loading and start u
+*/
 void textTREK() {
     system("CLS");
     song1();
@@ -151,69 +156,6 @@ void textTREK() {
     }
 
 }
-
-
-void setRoom(int a, int b) {
-     _ROOM_POINTER_A = a;
-      _ROOM_POINTER_B = b;
-      cout << "Setting room to " << a << "," << b << endl;
-    _GAME_CURRENT_ROOM = _WORLD_MAP[_ROOM_POINTER_A][_ROOM_POINTER_B];
-    enterRoom();
-}
-
-void enterRoom() {
-     string desc =  _GAME_CURRENT_ROOM._desc;
-     cout << desc << endl;
-}
-
-void nextRoom() {
-
-    // load he room into the global var
-     _GAME_CURRENT_ROOM = _WORLD_MAP[_ROOM_POINTER_A][_ROOM_POINTER_B];
-
-    // reset the counter if we reach the end of the map
-    if(_ROOM_POINTER_A == 4){
-        _ROOM_POINTER_A = 0;
-    } else {
-        _ROOM_POINTER_A++;
-    }
-
-   // reset the counter if we reach the end of the map
-    if(_ROOM_POINTER_B == 4){
-        _ROOM_POINTER_B = 0;
-    } else {
-        _ROOM_POINTER_B++;
-    }
-
-    enterRoom();
-
-
-}
-
-
-void playerDeath() {
-    system("CLS");
-    Beep(57, 100);
-    Beep(45, 100);
-    Beep(54, 1000);
-    setBackground("red");
-    cout << "\n\n\n\n\n\n\n\n\n\t\t\t\t";
-    cout << "YOU DIED!";
-    cout << "\n\n\t\t\t\tContinue?";
-
-    string in;
-    cin >> in;
-    if(in == "y" || in == "Y" || in == "yes" || in == "YES" || in == "Yes" || in == "YEs") {
-        system("CLS");
-        setBackground("grey");
-        _GAME_RESTART = true;
-    } else {
-        setBackground("grey");
-        _GAME_OVER = true;
-    }
-}
-
-
 
 // *********************************
 // startup and text input functions
@@ -252,8 +194,8 @@ void startup() {
     cout << "\n\n Now it begins...\n\n";
     system("PAUSE");
     system("cls");
-    cout << "\n\n\nYou are standing in an open field, the sun is setting\n in the West and there is a cave to your East.\n\n";
-
+   // cout << "\n\n\nYou are standing in an open field, the sun is setting\n in the West and there is a cave to your East.\n\n";
+    setRoom(0,0);
     getUserInput();
 
 
@@ -280,6 +222,55 @@ void getUserInput() {
     }
 }
 
+void tryDoor(string direction) {
+    if(_GAME_CURRENT_ROOM.hasDoor(direction)) {
+        cout << "You grasp the iron handle and open the door...\n";
+
+        if(direction == "north"){
+            int a = (_ROOM_POINTER_A - 1);
+            if (a >= 0){
+                setRoom(a,_ROOM_POINTER_B);
+            } else {
+                cout << "The door will not open, there seems to be a problem.\n";
+                cout << "data: " << a << "," << _ROOM_POINTER_B << endl;
+            }
+
+       } else if(direction == "south"){
+            int a = (_ROOM_POINTER_A + 1);
+            if (a >= 0){
+                setRoom(a,_ROOM_POINTER_B);
+            } else {
+                cout << "The door will not open, there seems to be a problem.\n";
+                cout << "data: " << a << "," << _ROOM_POINTER_B << endl;
+            }
+       } else if(direction == "east"){
+            int b = (_ROOM_POINTER_B + 1);
+            if (b >= 0){
+                setRoom(_ROOM_POINTER_A,b);
+            } else {
+                cout << "The door will not open, there seems to be a problem.\n";
+                cout << "data: " << _ROOM_POINTER_A << "," << b << endl;
+            }
+        } else if(direction == "west"){
+            int b = (_ROOM_POINTER_A - 1);
+            if (b >= 0){
+                setRoom(_ROOM_POINTER_A,b);
+            } else {
+                cout << "The door will not open, there seems to be a problem.\n";
+                cout << "data: " << _ROOM_POINTER_A << "," << b << endl;
+            }
+        } else {
+            cout << "Something really bad happened, the door disappeared.\n";
+             cout << "data: " << direction << endl;
+        }
+
+    } else {
+        cout << "There is no door here.\n";
+
+    }
+}
+
+
 /**
     Token Parser
     here we process user input and translate into game commands
@@ -297,19 +288,18 @@ bool processCMD(string cmd) {
     // -- GAME COMMANDS ---
     } else if(cmd == "go north"){
         cout << "You head north...\n";
-        if(_GAME_CURRENT_ROOM.hasDoor("north")) {
-            cout << "You grasp the iron handle and open the door...\n";
-        } else {
-            cout << "There is no door here.\n";
-        }
+         tryDoor("north");
     } else if(cmd == "go south"){
         cout << "You head south...\n";
+        tryDoor("south");
 
     } else if(cmd == "go east"){
         cout << "You head east...\n";
+        tryDoor("east");
 
     } else if(cmd == "go west"){
         cout << "You head west\n";
+        tryDoor("west");
 
     } else if (cmd == "clear") {
         system("CLS");
@@ -324,6 +314,7 @@ bool processCMD(string cmd) {
     } else if(cmd == "stats"){
          _User.specs();
 
+
     } else if(cmd == "search"){
         cout << "You search around the room";
         Sleep(700);
@@ -334,6 +325,45 @@ bool processCMD(string cmd) {
         cout << "\nR:" << _ROOM_POINTER_A << "," << _ROOM_POINTER_B << endl;
         cout << _GAME_CURRENT_ROOM._desc << endl;
         _GAME_CURRENT_ROOM.refeshCounts();
+
+     } else if(cmd == "search doors"){
+        cout << "Looking for doors";
+        Sleep(700);
+        cout << ".";
+        Sleep(700);
+        cout << ".";
+        Sleep(700);
+
+         string out;
+         string temp;
+         int doorCnt = 0;
+         if(_GAME_CURRENT_ROOM.hasDoor("north")) {
+            temp = temp + " North";
+            doorCnt++;
+         }
+         if(_GAME_CURRENT_ROOM.hasDoor("south")) {
+            temp = temp + " South";
+            doorCnt++;
+         }
+         if(_GAME_CURRENT_ROOM.hasDoor("east")) {
+            temp = temp + " East";
+            doorCnt++;
+         }
+         if(_GAME_CURRENT_ROOM.hasDoor("west")) {
+            temp = temp + " West";
+            doorCnt++;
+         }
+
+         if (doorCnt > 1) {
+            cout << "\nDoors:[" << temp << " ]\n";
+
+         } else if (doorCnt == 1) {
+            cout << "\nOnly one door found on the " << temp << " wall.\n";
+         }
+
+         _GAME_CURRENT_ROOM.getDoors();
+
+
     } else if(cmd == "attack"){
        cout << "You raise your sword and start screaming as you lunge at your opponent.\n";
 
@@ -428,7 +458,6 @@ void draw(string ascii_art_file) {
 }
 
 void giveGold(int gold){
-
       cout << "You found " << gold << " gold!\n";
      _User.giveGold(gold);
      flashScreen();
@@ -452,16 +481,6 @@ void waitProgressBar(string desc, int duration){
     }
 }
 
-// print out double array of room objects for debugging
-void showMap() {
-    cout << "MAP REPORT\n";
-    for(int i=0;i<4;i++){
-        for(int b=0;b<4;b++){
-            cout << "\nRoom#:[" << i << "][" << b << "]";
-            _WORLD_MAP[i][b].specs();
-        }
-    }
-}
 // using this we can signify action, red for damage, green for a winning blow or gold for finding loot.
 void setBackground(string color) {
     if (color == "red"){
@@ -480,31 +499,142 @@ void playWindowsChime() {
     cout<<"\a\a\a\a\a\a\a";
 }
 
+void song1() {
+    Beep(56, 100);
+    //Beep(13, 100);
+   // Beep(54, 100);
+    //Beep(52, 100);
+    Beep(57, 100);
+    Beep(45, 100);
+    Beep(54, 1000);
+}
+
+string getFileContents (ifstream& File)
+{
+    string Lines = "";        //All lines
+
+    if (File)                      //Check if everything is good
+    {
+	while (File.good ())
+	{
+	    string TempLine;                  //Temp line
+	    getline (File , TempLine);        //Get temp line
+	    TempLine += "\n";                      //Add newline character
+
+	    Lines += TempLine;                     //Add newline
+	}
+	return Lines;
+    }
+    else                           //Return error
+    {
+	return "ERROR File does not exist.";
+    }
+}
+
+
+
+// *********************************
+// Map and Room related functions
+// *********************************
+
+
+void setRoom(int a, int b) {
+     _ROOM_POINTER_A = a;
+     _ROOM_POINTER_B = b;
+      //cout << "Setting room to " << a << "," << b << endl;
+    _GAME_CURRENT_ROOM = _WORLD_MAP[_ROOM_POINTER_A][_ROOM_POINTER_B];
+    enterRoom();
+}
+
+void enterRoom() {
+     system("CLS");
+     flashScreen();
+     string desc =  _GAME_CURRENT_ROOM._desc;
+     cout << "\n\n\t" << desc << endl;
+}
+
+void nextRoom() {
+
+    // load he room into the global var
+     _GAME_CURRENT_ROOM = _WORLD_MAP[_ROOM_POINTER_A][_ROOM_POINTER_B];
+
+    // reset the counter if we reach the end of the map
+    if(_ROOM_POINTER_A == 4){
+        _ROOM_POINTER_A = 0;
+    } else {
+        _ROOM_POINTER_A++;
+    }
+
+   // reset the counter if we reach the end of the map
+    if(_ROOM_POINTER_B == 4){
+        _ROOM_POINTER_B = 0;
+    } else {
+        _ROOM_POINTER_B++;
+    }
+
+    enterRoom();
+
+
+}
+
+// print out double array of room objects for debugging
+void showMap() {
+    cout << "MAP REPORT\n";
+    for(int i=0;i<4;i++){
+        for(int b=0;b<4;b++){
+            cout << "\nRoom#:[" << i << "][" << b << "]";
+            _WORLD_MAP[i][b].specs();
+        }
+    }
+}
 
 // *********************************
 // randomizer object factories
 // *********************************
 
-Player randomPlayer() {
-    cout << "\n" << "Generating random character [";
-    int age = randomNumber(15, 40);
-    Sleep(500);
-    int damage = randomNumber(5, 15);
-    Sleep(500);
-    int health = 50;
-    int armor = randomNumber(5, 20);
-    Sleep(500);
-    Player p("r", age, damage, health, armor);
-    cout << "] Completed!";
-    return p;
+/**
+   Returns a random number between 'start' and 'limit'
+*/
+int randomNumber(int start, int limit) {
+     Sleep(_GAME_LOADING_DELAY);
+    cout << "*";
+    int ranNum = rand() % limit; // does the work
+    if (ranNum < start) {
+        return start;
+    }
+    return ranNum;
+
 }
+/**
+   returns random flipflop (0 or 1),
+   use the division of a larger number to generate more entropy.
+*/
+int randomFlop() {
+    Sleep(_GAME_LOADING_DELAY);
+    int ranNum = rand() % 50;
+    if (ranNum < 25){
+     return 0;
+    }
+    return 1;
+}
+
+/**
+  Returns a random generated monster
+*/
 Player randomMonster() {
     return _WORLD_MONSTERS[randomNumber(0, 4)];
 }
+
+/**
+   Returns a random generated world item
+*/
 Item randomItem() {
     return _WORLD_ITEMS[randomNumber(0, 3)];
 }
-//Returns a Room object with random contents
+
+/**
+   Returns a Room object with random contents
+*/
 Room randomRoom(int north, int south, int east, int west) {
 
 
@@ -527,31 +657,54 @@ Room randomRoom(int north, int south, int east, int west) {
     return r;
 }
 
-// given a limit integer, and if you should omit zero, will return a random number between 1 and 'limit'
-int randomNumber(int start, int limit) {
-     Sleep(_GAME_LOADING_DELAY);
-    cout << "*";
-    int ranNum = rand() % limit; // does the work
-    if (ranNum < start) {
-        return start;
-    }
-    return ranNum;
+/**
+   Return a randomly generated player character
+*/
+Player randomPlayer() {
+    cout << "\n" << "Generating random character [";
+    int age = randomNumber(15, 40);
+    Sleep(500);
+    int damage = randomNumber(5, 15);
+    Sleep(500);
+    int health = 50;
+    int armor = randomNumber(5, 20);
+    Sleep(500);
+    Player p("r", age, damage, health, armor);
+    cout << "] Completed!";
+    return p;
+}
+/**
+   Player had died (end game)
+*/
+void playerDeath() {
+    system("CLS");
+    Beep(57, 100);
+    Beep(45, 100);
+    Beep(54, 1000);
+    setBackground("red");
+    cout << "\n\n\n\n\n\n\n\n\n\t\t\t\t";
+    cout << "YOU DIED!";
+    cout << "\n\n\t\t\t\tContinue?";
 
+    string in;
+    cin >> in;
+    if(in == "y" || in == "Y" || in == "yes" || in == "YES" || in == "Yes" || in == "YEs") {
+        system("CLS");
+        setBackground("grey");
+        _GAME_RESTART = true;
+    } else {
+        setBackground("grey");
+        _GAME_OVER = true;
+    }
 }
 
 
 
-// returns 0 or 1,
-// use the division of a larger number to
-// generate more entropy.
-int randomFlop() {
-    Sleep(_GAME_LOADING_DELAY);
-    int ranNum = rand() % 50;
-    if (ranNum < 25){
-     return 0;
-    }
-    return 1;
-}
+// *********************************
+// World Generation functions
+// *********************************
+
+
 
 void populateWorld() {
 // ____________________
@@ -579,10 +732,10 @@ void populateWorld() {
     // random room descriptions
      _ROOM_DESC[0]="A dark room lit with a torch on the North wall";
      _ROOM_DESC[1]="The smell of Orc is strong in this damp room";
-     _ROOM_DESC[2]="A large room with a tapestry on the South wall and a bookshelf and candle on the North. In the center of the room is a large table with eight chairs.";
+     _ROOM_DESC[2]="A large room with a tapestry on the South wall, and a bookshelf\n and candle on the North. In the center of\n the room is a large table with eight chairs.";
      _ROOM_DESC[3]="A coat of arms is on the East wall";
      _ROOM_DESC[4]="The North wall is covered with moss.";
-     _ROOM_DESC[5]="The room appears empty other than a table with a platter. The smell of death and stale bread fills your nose.";
+     _ROOM_DESC[5]="The room appears empty other than a table with a platter. Stale bread fills your nose.";
 }
 
 
@@ -595,7 +748,7 @@ void createMap(){
     _WORLD_MAP[0][0] = randomRoom(0,0,1,0);
     _WORLD_MAP[0][1] = randomRoom(0,0,1,1);
     _WORLD_MAP[0][2] = randomRoom(0,0,1,1);
-    _WORLD_MAP[0][3] = randomRoom(0,0,1,0);
+    _WORLD_MAP[0][3] = randomRoom(0,0,0,1);
 
     // ____________________
     // map second row
@@ -620,43 +773,13 @@ void createMap(){
     _WORLD_MAP[3][1] = randomRoom(1,0,1,0);
     _WORLD_MAP[3][2] = randomRoom(0,0,1,1);
     _WORLD_MAP[3][3] = randomRoom(0,0,0,1);
-    cout << "] Complete!\n";
-
-}
-
-
-void song1() {
+    cout << "] Complete!\n\n";
     Beep(56, 100);
-    Beep(13, 100);
-    Beep(54, 100);
-    Beep(52, 100);
-    Beep(57, 100);
-    Beep(45, 100);
-    Beep(54, 1000);
+    cout << "\nGame world loading complete. Ready to play!\n\n";
+    system("PAUSE");
+
 }
 
-
-std::string getFileContents (std::ifstream& File)
-{
-    std::string Lines = "";        //All lines
-
-    if (File)                      //Check if everything is good
-    {
-	while (File.good ())
-	{
-	    std::string TempLine;                  //Temp line
-	    std::getline (File , TempLine);        //Get temp line
-	    TempLine += "\n";                      //Add newline character
-
-	    Lines += TempLine;                     //Add newline
-	}
-	return Lines;
-    }
-    else                           //Return error
-    {
-	return "ERROR File does not exist.";
-    }
-}
 
 
 /**
