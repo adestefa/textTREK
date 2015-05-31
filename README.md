@@ -10,7 +10,7 @@ I always wanted to write my own text-driven adventure game, do more with less ph
 # Prolouge
 ==========
 
-Your name is Dr. Walter Landen you are part of a expedition to an uncharted island. Until five years ago, no one knew it existed. A rather large block of land about twenty miles across in the South Pacific.
+Your name is Dr. Walter Landen, you are part of a expedition to an uncharted island. Until five years ago, no one knew it existed. A rather large block of land in the South Pacific, two thousand-six hundred miles west from Mexico's coast.
 
 It was discovered by your colleague James Waters, who was a bit of a celebrity in the archaeology community for discovering the island, until he went missing.
 
