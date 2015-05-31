@@ -1,7 +1,7 @@
 South Pacific Ocean
 -3.853191, -126.808333
-
-
+2,600 miles from Mexico's West coast
+656.168
 East pacific Rise
  - West of the Peru Basin
  - Bauer Basin

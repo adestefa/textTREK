@@ -50,12 +50,12 @@
 
     void Player::specs() const {
         cout << endl << endl <<
-         _name << endl <<
-        "Age:" << _age << endl <<
-        "Damage:" << _damage << endl <<
-        "Health:" << _health << endl <<
-        "Armor:" << _armor << endl <<
-        "Gold:"  << _gold << endl;
+        "  " << _name << endl <<
+        "  Age:" << _age << endl <<
+        "  Damage:" << _damage << endl <<
+        "  Health:" << _health << endl <<
+        "  Armor:" << _armor << endl <<
+        "  Gold:"  << _gold << endl;
     }
 
     void Player::specsOneline() const {

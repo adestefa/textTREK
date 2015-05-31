@@ -14,35 +14,37 @@
 
 using namespace std;
 
-// *********************************
-// game helper functions
-// *********************************
-void start();   // starts game
-void showMap();
-void song1();
-void flashScreen();
-void giveGold(int gold);
+void splashScreen();
 void textTREK();
-void nextRoom();
 void startup();
-void createMap();
-void playerDeath();
 void populateWorld();
-int randomFlop();
-void tryDoor(string direction);
+void createMap();
 void getUserInput();
-void playWindowsChime();
 bool processCMD(string cmd);
+
+
+void song1();
+void showMap();
+void flashScreen();
+void playerDeath();
+void giveGold(int gold);
+void playWindowsChime();
 void draw(string ascii_art_file);
 void setBackground(string color);
-int randomNumber(int start, int limit);
-void splashScreen();
+void waitProgressBar(string desc, int duration);
+
+
+void nextRoom();
 void enterRoom();
+void draw_openDoor();
 void setRoom(int a, int b);
+void tryDoor(string direction);
+
+int randomFlop();
+int randomNumber(int start, int limit);
 
 string getFileContents (std::ifstream& File);
 
-void waitProgressBar(string desc, int duration);
 
 // *********************************
 // random object factory functions
@@ -58,7 +60,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.3.0";
+string _VER = "0.3.1";
 // command prompt show to user when they type
 string _CMD_PROMPT = "$textTREK>";
 // global string for all user input
@@ -163,7 +165,7 @@ void startup() {
     system("CLS");
     cout << "\n\n           ADVENTURE AWAITS!\n\n";
     cout << "\n What do they call you?>";
-    Beep(45, 1000);
+
 
     string playerName;
     cin >> playerName;
@@ -189,7 +191,7 @@ void getUserInput() {
     if(_GAME_RESTART) {
           textTREK();
     } else {
-        Beep(45, 800);
+        Beep(56, 100);
         string in = "reset";
         getline(cin, in);
         bool exitCMD = processCMD(in);
@@ -294,7 +296,8 @@ bool processCMD(string cmd) {
     } else if(cmd == "stats"){
          _User.specs();
 
-
+    } else if(cmd == "open door") {
+        draw_openDoor();
     } else if(cmd == "search"){
         cout << "You search around the room";
         Sleep(700);
@@ -407,6 +410,70 @@ bool processCMD(string cmd) {
     return exitCMD;
 }
 
+
+void draw_openDoor() {
+     int animation_delay = 300;
+
+     string Art;
+     system("CLS");
+     ifstream Reader1("_GAME_ART_DOOR_1.txt");
+     Art = getFileContents (Reader1);
+     cout << Art;
+     Reader1.close ();
+     Sleep(animation_delay);
+
+     system("CLS");
+     ifstream Reader2("_GAME_ART_DOOR_2.txt");
+     Art = getFileContents (Reader2);
+     cout << Art;
+     Reader2.close ();
+     Sleep(animation_delay);
+
+     system("CLS");
+     ifstream Reader3("_GAME_ART_DOOR_3.txt");
+     Art = getFileContents (Reader3);
+     cout << Art;
+     Reader3.close ();
+     Sleep(animation_delay);
+
+     system("CLS");
+     ifstream Reader4("_GAME_ART_DOOR_4.txt");
+     Art = getFileContents (Reader4);
+     cout << Art;
+     Reader4.close ();
+     Sleep(animation_delay);
+
+     system("CLS");
+     ifstream Reader5("_GAME_ART_DOOR_5.txt");
+     Art = getFileContents (Reader5);
+     cout << Art;
+     Reader5.close ();
+     Sleep(animation_delay);
+
+     system("CLS");
+     ifstream Reader6("_GAME_ART_DOOR_6.txt");
+     Art = getFileContents (Reader6);
+     cout << Art;
+     Reader6.close ();
+     Sleep(animation_delay);
+
+     system("CLS");
+     ifstream Reader7("_GAME_ART_DOOR_7.txt");
+     Art = getFileContents (Reader7);
+     cout << Art;
+     Reader7.close ();
+     Sleep(animation_delay);
+
+     system("CLS");
+     ifstream Reader8("_GAME_ART_DOOR_8.txt");
+     Art = getFileContents (Reader8);
+     cout << Art;
+     Reader8.close ();
+     Sleep(animation_delay);
+     system("CLS");
+
+
+}
 
 // *********************************
 // Helper functions
@@ -534,6 +601,7 @@ void setRoom(int a, int b) {
 
 void enterRoom() {
      system("CLS");
+     draw_openDoor();
      flashScreen();
      string desc =  _GAME_CURRENT_ROOM._desc;
      cout << "\n\n\t" << desc << endl;
