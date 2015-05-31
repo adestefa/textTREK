@@ -50,9 +50,11 @@ The boat instantly starts to take on water and canter forward. The captain turns
 
 He is choking your neck, you feel your grip loosen, you grasp for air as you start to lose consciousness. You try to scream but nothing comes out.
 
-You feel the water at your feet again, this time it is now rising faster and is already at your knee, you let go of the rail and plunge into the thick black ocean. It is as cold as arresting, the second mate is still holding tight as you both fall quickly under together. Looking up, you still see the bridge floodlights above the water and the darker outline of the boat as it is sinking above you both. You kick as hard as you can but no luck. You think this is it, you're not going to make it. Pannicing, you kick again as hard as you can, knocking the second mate lose.  FREE at last!
+You feel the water at your feet again, this time it is now rising faster and is already at your knee, you let go of the rail and plunge into the thick black ocean. It is as cold as arresting, the second mate is still holding tight as you both fall quickly under together. Looking up, you still see the bridge floodlights above the water and the darker outline of the boat as it is sinking above you both. You kick as hard as you can but no luck. You think this is it, you're not going to make it. Panic sets in, you kick again as hard as you can, knocking the second mate lose this time.  FREE at last!
 
-You feel each kick from your legs push you upwards now, the boat is now mostly sunken and the floodlights are still on shining, now into the think sea. As the last air bubbles exscape out of the cabin, the boat finally falls under the water line.
+Now you feel each kick from your legs push you upwards, the boat is now mostly sunken and very close and the floodlights are still on shining, now into the think sea. 
+
+As the last air bubbles exscape out of the cabin, the boat finally falls under the water line.
 
 Then the floodlights go out.
 
