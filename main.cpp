@@ -121,9 +121,8 @@ void splashScreen() {
         string Art;
         ifstream Reader1("_GAME_ART_TITLE.txt");
         Art = getFileContents (Reader1);       //Get file
-        cout << Art;
-        Reader1.close ();
-        cout  << "            v" + _VER + "\n\n";
+        cout << Art << "      v" + _VER + "\n\n";
+        Reader1.close();
         populateWorld();
         Beep(56, 100);
         createMap();
@@ -139,7 +138,7 @@ void splashScreen() {
 void textTREK() {
     // song1();
     // Homage to War Games Movie
-    cout << "\n\nShall we play a game?";
+    cout << "\n\n      Shall we play a game?\n\n      " << _CMD_PROMPT;
     // user input
     string in;
     cin >> in;
@@ -648,7 +647,7 @@ Room randomRoom(int north, int south, int east, int west) {
    Return a randomly generated player character
 */
 Player randomPlayer() {
-    cout << "\n" << "Generating random character [";
+    cout << "\n" << "  Generating random character [";
     int age = randomNumber(15, 40);
     Sleep(500);
     int damage = randomNumber(5, 15);
@@ -697,7 +696,7 @@ void populateWorld() {
 // ____________________
     // populate world items
     // --------------------
-	waitProgressBar("Loading items", 4);
+	waitProgressBar("      Loading items", 4);
     _WORLD_ITEMS[0] = Item("Potion of Healing", "Drink this potion to heal thyself", 100, 0, 100, 100);
     _WORLD_ITEMS[1] = Item("Sword of Shadows", "Kills undead", 200, 40, 0, 78);
     _WORLD_ITEMS[2] = Item("Shield of Blocking", "A durable shield that can block heavy blows", 300, 0, 0, 30);
@@ -707,7 +706,7 @@ void populateWorld() {
     // ____________________
     // populate world monsters
     // --------------------
-    waitProgressBar("Loading monsters", 5);
+    waitProgressBar("      Loading monsters", 5);
     // (name, age, damage, health, armor)
     _WORLD_MONSTERS[0] = Player("Ghoul", 30, 3, 10, 5);
     _WORLD_MONSTERS[1] = Player("Commander Ghoul", 80, 20, 100, 15);
@@ -735,7 +734,7 @@ void populateWorld() {
 */
 void createMap(){
 
-    cout << "\n" << "Creating map" << " [";
+    cout << "\n" << "      Creating map" << " [";
      // ____________________
      // map first row
      // --------------------
