@@ -56,7 +56,7 @@ The water is at your feet again, this time it is now rising faster and is alread
 
 Now you feel each kick from your legs push you upwards, the boat is now mostly sunk and getting closer. The floodlights are sumerged yet still shining into the sea. 
 
-As the last air bubbles exscape out of the cabin, the boat finally falls under the water line.
+As the last air bubbles escape out of the cabin, the boat finally falls under the water line.
 
 The floodlights go out.
 
