@@ -12,7 +12,7 @@ I always wanted to write my own text-driven adventure game, do more with less ph
 
 Your name is Dr. Walter Landen you are part of a expedition to an uncharted island. Until five years ago, no one knew it existed. A rather large block of land about twenty miles across in the South Pacific.
 
-It was discovered by your colleague James Waters, who was a bit of a celebrity in the Archaeology community for discovering the island, until he went missing.
+It was discovered by your colleague James Waters, who was a bit of a celebrity in the archaeology community for discovering the island, until he went missing.
 
 Five years after James began searching the island with a small crew, no one has heard from him. No evidence but a single transmission that left the island two weeks ago. It was a weak signal so most of the message was lost. James in his
 
