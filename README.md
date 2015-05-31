@@ -46,17 +46,17 @@ It is also very quiet with the engines off and no one making any sounds. Erie qu
 
 Just as you click the radio to return an answer, you spot a shape in the water, grey and rising out, a ROCK, "ROCK ROCK, I SEE A ROCK DEAD AHEAD" you scream over the radio, the captain puts the engines in full reverse, but it is too late, the boat hits the rock and it goes right through the front bow, the impact knocks you forward off your feet, you grab the rail and lose the flood light over the side as the boat comes to a stop. The boat starts to back up now and you can hear more cracking of the bow as the rock rips free from the fiberglass hull.
 
-The boat instantly starts to take on water and canter forward. The captain turns the flood lights on again, but that only makes the fog even brighter. The second mate was thrown down on impact, he gets up and starts yelling for the captain as you feel your feet get cold as the water rises to your ankles. Using the rail you pull your way up hill towards the bridge, away from the sinking front bow. The bottom half of the first mate slides past you as the boat increases its pitch. The second mate starts to lose his balance, he spots you and lunges, grabbing around your neck as he holds on for dear life screaming.
+The boat instantly starts to take on water and canter forward. The captain turns the flood lights on again, but that only makes the fog even brighter. The second mate was thrown down on impact, he gets up and starts yelling for the captain as you feel your feet get cold as the water rises to your ankles. Using the rail you pull your way up hill towards the bridge, away from the sinking front bow. The bottom half of the first mate slides past you as the boat increases its pitch. The second mate starts to lose his balance, he spots you and lunges, wraping his arm around your neck as he holds on for dear life. You are now holding your weight and his, you tighten your grip on the railing.
 
-He is choking your neck, you feel your grip loosen, you grasp for air as you start to lose consciousness. You try to scream but nothing comes out.
+His arm is choking you. Now you can feel your grip loosen, and lungs burn. You grasp for air as you start to lose consciousness. Trying to scream but nothing comes out.
 
-You feel the water at your feet again, this time it is now rising faster and is already at your knee, you let go of the rail and plunge into the thick black ocean. It is as cold as arresting, the second mate is still holding tight as you both fall quickly under together. Looking up, you still see the bridge floodlights above the water and the darker outline of the boat as it is sinking above you both. You kick as hard as you can but no luck. You think this is it, you're not going to make it. Panic sets in, you kick again as hard as you can, knocking the second mate lose this time.  FREE at last!
+The water is at your feet again, this time it is now rising faster and is already at your knee, you let go of the rail and plunge into the thick black ocean. It is as cold as arresting, the second mate is still holding tight as you both fall quickly under together. Looking up, you still see the bridge floodlights above the water and the darker outline of the boat as it is sinking above you. You kick as hard as you can but no luck. You think this is it, you're not going to make it. Panic sets in, you kick again as hard as you can and strike with your elbow into his side behind you, knocking the second mate lose. Free at last!
 
-Now you feel each kick from your legs push you upwards, the boat is now mostly sunken and very close and the floodlights are still on shining, now into the think sea. 
+Now you feel each kick from your legs push you upwards, the boat is now mostly sunk and getting closer. The floodlights are sumerged yet still shining into the think sea. 
 
 As the last air bubbles exscape out of the cabin, the boat finally falls under the water line.
 
-Then the floodlights go out.
+The floodlights go out.
 
 The last thing you feel was the boat hitting your head.
 
