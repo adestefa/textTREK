@@ -4,7 +4,12 @@ A text adventure in C++.
 I always wanted to write my own text-driven adventure game, do more with less philosophy.  Here I revisit old-school gaming while exploring how to incorporate new unrelated gameplay elements on the cmd line.
 
 
-Kown commands:
+![alt tag](https://github.com/adestefa/textTREK/blob/master/textTREK.png)
+
+
+
+
+Known commands:
 ============= 
  - go north
  - go south
