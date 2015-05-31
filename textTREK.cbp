@@ -23,7 +23,6 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="File1.txt" />
 		<Unit filename="Item.cpp" />
 		<Unit filename="Item.h" />
 		<Unit filename="Map.h" />
@@ -31,7 +30,11 @@
 		<Unit filename="Player.h" />
 		<Unit filename="Room.cpp" />
 		<Unit filename="Room.h" />
+		<Unit filename="_GAME_ART_CHEST_CLOSED_1.txt" />
+		<Unit filename="_GAME_ART_CHEST_OPEN_1.txt" />
 		<Unit filename="_GAME_ART_CHEST_OPEN_2.txt" />
+		<Unit filename="_GAME_ART_TEST.txt" />
+		<Unit filename="_GAME_ART_TITLE.txt" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

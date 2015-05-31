@@ -18,7 +18,6 @@ using namespace std;
 // game helper functions
 // *********************************
 void start();   // starts game
-void welcome(); // msg
 void showMap();
 void song1();
 void flashScreen();
@@ -37,7 +36,7 @@ bool processCMD(string cmd);
 void draw(string ascii_art_file);
 void setBackground(string color);
 int randomNumber(int start, int limit);
-
+void splashScreen();
 void enterRoom();
 void setRoom(int a, int b);
 
@@ -88,9 +87,11 @@ int _NUM_ROOM_DESC = 6;
 string _ROOM_DESC[6];
 
 
+// game art
 string _GAME_ART_CHEST_OPEN = "_GAME_ART_CHEST_OPEN_1.txt";
 string _GAME_ART_CHEST_OPEN_2 = "_GAME_ART_CHEST_OPEN_2.txt";
 string _GAME_ART_CHEST_CLOSED = "_GAME_ART_CHEST_CLOSED_1.txt";
+string _GAME_ART_PLAYER_DIED = "_GAME_ART_PLAYER_DIED.txt";
 
 bool _GAME_OVER = false;
 bool _GAME_RESTART = false;
@@ -112,67 +113,47 @@ Room _GAME_CURRENT_ROOM;
 int main()
 {
     srand ( time(0) );
-    textTREK();
+    splashScreen();
 	system("PAUSE");
 	return 0;
 }
-
+void splashScreen() {
+        string Art;
+        ifstream Reader1("_GAME_ART_TITLE.txt");
+        Art = getFileContents (Reader1);       //Get file
+        cout << Art;
+        Reader1.close ();
+        cout  << "            v" + _VER + "\n\n";
+        populateWorld();
+        Beep(56, 100);
+        createMap();
+        Beep(56, 100);
+        flashScreen();
+        Beep(56, 100);
+        textTREK();
+}
 
 /**
     Game loading and start u
 */
 void textTREK() {
-    system("CLS");
-    song1();
+    // song1();
     // Homage to War Games Movie
     cout << "\n\nShall we play a game?";
     // user input
     string in;
     cin >> in;
-    // development back door, skip intro for faster testing
-    if(in == "dev") {
-         _GAME_SHOW_LOADING = false;
-         populateWorld();
-         createMap();
-         startup();
-
     // all valid "yes" responses (user wants to play game)
-    } else if(in == "y" || in == "Y" || in == "yes" || in == "YES" || in == "Yes" || in == "YEs") {
-        // set up game world
-        welcome();
-        populateWorld();
-        Beep(56, 100);
-        createMap();
-        Beep(56, 100);
-        setBackground("grey");
-        Beep(56, 100);
+    if(in == "y" || in == "Y" || in == "yes" || in == "YES" || in == "Yes" || in == "YEs") {
         // start the game
         startup();
-
     // user quit
     } else {
-        cout << "\nQuitting so soon? At least you now have something in common with Sara Palin";
+        cout << "\nQuitting so soon?";
         cout << "\n\nbye.\n";
     }
 
 }
-
-// *********************************
-// startup and text input functions
-// *********************************
-
-/**
-    Game splash screen, name and legal
-*/
-void welcome() {
-    system("CLS");
-    string msg = "\n                textTREK v" + _VER + "\n\n";
-    msg = msg + "textTREK: A Simple Text Adventure\n";
-    msg = msg + "Copyright (c) 2015 Bitrot, Inc\n";
-    msg = msg + "textTREK is a registered trademark of Bitrot, Inc.\n\n";
-    cout << msg;
-}
-
 
 
 /**
@@ -433,7 +414,13 @@ bool processCMD(string cmd) {
 // *********************************
 
 void draw(string ascii_art_file) {
-    //std::ifstream Reader;
+       std::ifstream Reader("_GAME_ART_CHEST_OPEN_1.txt");
+        std::string Art = getFileContents (Reader);       //Get file
+        std::cout << Art << std::endl;               //Print it to the screen
+        Reader.close ();                  //Open file
+        giveGold(50);
+
+    /**
     if(ascii_art_file == _GAME_ART_CHEST_OPEN){
         std::ifstream Reader("_GAME_ART_CHEST_OPEN_1.txt");
         std::string Art = getFileContents (Reader);       //Get file
@@ -454,7 +441,7 @@ void draw(string ascii_art_file) {
         Reader.close ();
 
     }
-
+  */
 }
 
 void giveGold(int gold){
@@ -500,7 +487,7 @@ void playWindowsChime() {
 }
 
 void song1() {
-    Beep(56, 100);
+   // Beep(56, 100);
     //Beep(13, 100);
    // Beep(54, 100);
     //Beep(52, 100);
@@ -555,7 +542,7 @@ void enterRoom() {
 
 void nextRoom() {
 
-    // load he room into the global var
+    // load the room into the global var
      _GAME_CURRENT_ROOM = _WORLD_MAP[_ROOM_POINTER_A][_ROOM_POINTER_B];
 
     // reset the counter if we reach the end of the map
@@ -619,14 +606,14 @@ int randomFlop() {
 }
 
 /**
-  Returns a random generated monster
+  Returns a random monster
 */
 Player randomMonster() {
     return _WORLD_MONSTERS[randomNumber(0, 4)];
 }
 
 /**
-   Returns a random generated world item
+   Returns a random world item
 */
 Item randomItem() {
     return _WORLD_ITEMS[randomNumber(0, 3)];
@@ -710,7 +697,7 @@ void populateWorld() {
 // ____________________
     // populate world items
     // --------------------
-	waitProgressBar("Populating world items", 4);
+	waitProgressBar("Loading items", 4);
     _WORLD_ITEMS[0] = Item("Potion of Healing", "Drink this potion to heal thyself", 100, 0, 100, 100);
     _WORLD_ITEMS[1] = Item("Sword of Shadows", "Kills undead", 200, 40, 0, 78);
     _WORLD_ITEMS[2] = Item("Shield of Blocking", "A durable shield that can block heavy blows", 300, 0, 0, 30);
@@ -720,7 +707,7 @@ void populateWorld() {
     // ____________________
     // populate world monsters
     // --------------------
-    waitProgressBar("Populating world monsters", 5);
+    waitProgressBar("Loading monsters", 5);
     // (name, age, damage, health, armor)
     _WORLD_MONSTERS[0] = Player("Ghoul", 30, 3, 10, 5);
     _WORLD_MONSTERS[1] = Player("Commander Ghoul", 80, 20, 100, 15);
@@ -739,9 +726,16 @@ void populateWorld() {
 }
 
 
+/**
+    Define world map as a global double array of Room objects
+     - each value will be a random generated room
+     - each random room will be given a list of define doors
+     - let each be true or false: (north, south, east, west) = (0, 0, 1, 1) = (none, none, door, door)
+
+*/
 void createMap(){
 
-    cout << "\n" << "Creating world map" << " [";
+    cout << "\n" << "Creating map" << " [";
      // ____________________
      // map first row
      // --------------------
@@ -775,8 +769,7 @@ void createMap(){
     _WORLD_MAP[3][3] = randomRoom(0,0,0,1);
     cout << "] Complete!\n\n";
     Beep(56, 100);
-    cout << "\nGame world loading complete. Ready to play!\n\n";
-    system("PAUSE");
+
 
 }
 
