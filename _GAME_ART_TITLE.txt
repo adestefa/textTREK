@@ -1,11 +1,11 @@
 
 
-               _           _  _____ ___ ___ _  __
-              | |_ _____ _| ||_   _| _ \ __| |/ /
-              |  _/ -_) \ /  _|| | |   / _|| ' <
-               \__\___/_\_\\__||_| |_|_\___|_|\_\
+          _           _  _____ ___ ___ _  __
+         | |_ _____ _| ||_   _| _ \ __| |/ /
+         |  _/ -_) \ /  _|| | |   / _|| ' <
+          \__\___/_\_\\__||_| |_|_\___|_|\_\
 
-      An unexpected text adventure with a snarky modern twist.
+    An unexpected text adventure with a modern twist.
 
-      Copyright (c) 2015 Bitrot, Inc
-      textTREK is a registered trademark of Bitrot, Inc.
+    Copyright (c) 2015 Bitrot, Inc
+    textTREK is a registered trademark of Bitrot, Inc.
