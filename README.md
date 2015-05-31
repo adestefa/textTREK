@@ -92,6 +92,7 @@ Known commands:
  - next room
  - set room
  - attack
+ - swim
  - flee
  - map
  - clear
