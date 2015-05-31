@@ -1,0 +1,36 @@
+South Pacific Ocean
+-3.853191, -126.808333
+
+
+East pacific Rise
+ - West of the Peru Basin
+ - Bauer Basin
+between Australia and South America
+
+Multibeam Bathymetry Survey
+Survey ID: MGL0808
+Platform Name: Marcus G. Langseth
+Survey Year: 2008
+Chief Scientist: McGuire, Jeffrey
+Instrument: Kongsberg EM120
+File Count: 155
+Track Length: 4659 km
+Total Time: 278 hours
+Bathymetry Beams: 17.216549 million
+Amplitude Beams: 17.216549 million
+Sidescan: 92.302336 million pixels
+
+
+
+Multibeam Bathymetry Survey
+Survey ID: GLOR02MV
+Platform Name: Melville
+Survey Year: 1992
+Chief Scientist: Macdonald, Ken
+Instrument: SeaBeam 2000
+File Count: 24
+Track Length: 16166 km
+Total Time: 829 hours
+Bathymetry Beams: 26.29572 million
+Amplitude Beams: 0 million
+Sidescan: 0 million pixels
