@@ -100,8 +100,8 @@ void splashScreen() {
         Beep(56, 100);
         createMap();
         Beep(56, 100);
-        flashScreen();
         Beep(56, 100);
+        flashScreen();
         textTREK();
 }
 
@@ -470,15 +470,7 @@ void draw_openDoor() {
      cout << Art;
      Reader7.close ();
      Sleep(animation_delay);
-
      system("CLS");
-     ifstream Reader8("_GAME_ART_DOOR_8.txt");
-     Art = getFileContents (Reader8);
-     cout << Art;
-     Reader8.close ();
-     Sleep(animation_delay);
-     system("CLS");
-
 
 }
 
@@ -500,7 +492,7 @@ void waitProgressBar(string desc, int duration){
         cout << "\n" << desc << " [";
         for(int i=0;i<duration;i++) {
                 cout << "*";
-                Sleep (300);
+                Sleep (100);
         }
         cout << "] Complete!\n";
     }
