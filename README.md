@@ -87,6 +87,8 @@ Known commands:
  - go west
  - stats
  - search
+ - search doors
+ - open door
  - current room
  - next room
  - set room
