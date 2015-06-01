@@ -6,7 +6,7 @@
 	<iostream>
 	<string>
 
-1433111833 source:c:\users\admin\desktop\c++\texttrek\texttrek\main.cpp
+1433122098 source:c:\users\admin\desktop\c++\texttrek\texttrek\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -19,6 +19,7 @@
 	"Item.h"
 	"Room.h"
 	"Path.h"
+	"textTREK.h"
 
 1432493039 c:\users\admin\desktop\c++\texttrek\texttrek\item.cpp
 	"Item.h"
@@ -26,11 +27,11 @@
 1432492971 c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
 	"Player.h"
 
-1432884094 c:\users\admin\desktop\c++\texttrek\texttrek\player.h
+1433122529 c:\users\admin\desktop\c++\texttrek\texttrek\player.h
 	<iostream>
 	<string>
 
-1433111866 source:c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
+1433122524 source:c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
 	"Player.h"
 
 1432946735 source:c:\users\admin\desktop\c++\texttrek\texttrek\room.cpp
@@ -49,4 +50,6 @@
 1432936681 c:\users\admin\desktop\c++\texttrek\texttrek\path.h
 	<iostream>
 	<string>
+
+1433121653 c:\users\admin\desktop\c++\texttrek\texttrek\texttrek.h
 

@@ -5,26 +5,30 @@
         _name = "";
         _age = 0;
         _damage = 0;
-        _health = 0;
+        _health = 100;
         _armor = 0;
         _gold = 0;
+        _alive = 1;
     }
 
 
     Player::Player(string n){
         _name = n;
         _gold = 0;
+        _alive = 1;
     }
     Player::Player(string n, int a){
         _name = n;
         _age = a;
         _gold = 0;
+        _alive = 1;
     }
     Player::Player(string n, int a, int d){
         _name = n;
         _age = a;
         _damage = d;
         _gold = 0;
+        _alive = 1;
     }
     Player::Player(string n, int a, int d, int h){
         _name = n;
@@ -32,6 +36,7 @@
         _damage = d;
         _health = h;
         _gold = 0;
+        _alive = 1;
     }
 
     Player::Player(string n, int a, int d, int h, int ar) {
@@ -41,6 +46,7 @@
         _health = h;
         _armor = ar;
         _gold = 0;
+        _alive = 1;
     }
 
 
@@ -55,7 +61,8 @@
         "  Damage:" << _damage << endl <<
         "  Health:" << _health << endl <<
         "  Armor:" << _armor << endl <<
-        "  Gold:"  << _gold << endl;
+        "  Gold:"  << _gold << endl <<
+        "  Alive:" << _alive << endl;
     }
 
     void Player::specsOneline() const {
@@ -67,7 +74,6 @@
         "Armor:" << _armor << ", " <<
         "Gold:"  << _gold;
     }
-
 
     string Player::getName() const{
         return _name;
@@ -87,6 +93,10 @@
     int Player::getArmor() const{
         return _armor;
     }
+    bool Player::getAlive() const{
+        return _alive;
+    }
+
 
     void Player::setName(string n){
         _name = n;
@@ -108,5 +118,8 @@
     }
     void Player::setAromor(int ar){
         _armor = ar;
+    }
+    void Player::setAlive(bool alive){
+        _alive = alive;
     }
 

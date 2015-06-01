@@ -382,6 +382,42 @@ bool processCMD(string cmd) {
 }
 
 
+
+// *********************************
+// Helper functions
+// *********************************
+
+void draw(string ascii_art_file) {
+       std::ifstream Reader("_GAME_ART_CHEST_OPEN_1.txt");
+        std::string Art = getFileContents (Reader);       //Get file
+        std::cout << Art << std::endl;               //Print it to the screen
+        Reader.close ();                  //Open file
+        giveGold(50);
+
+    /**
+    if(ascii_art_file == _GAME_ART_CHEST_OPEN){
+        std::ifstream Reader("_GAME_ART_CHEST_OPEN_1.txt");
+        std::string Art = getFileContents (Reader);       //Get file
+        std::cout << Art << std::endl;               //Print it to the screen
+        Reader.close ();                  //Open file
+        giveGold(50);
+    } else if(ascii_art_file == _GAME_ART_CHEST_OPEN_2){
+        std::ifstream Reader("_GAME_ART_CHEST_OPEN_2.txt");
+        std::string Art = getFileContents (Reader);       //Get file
+        std::cout << Art << std::endl;               //Print it to the screen
+        Reader.close ();                  //Open file
+        giveGold(100);
+
+    } else if(ascii_art_file == _GAME_ART_CHEST_CLOSED){
+        std::ifstream Reader("_GAME_ART_CHEST_CLOSED_1.txt");
+        std::string Art = getFileContents (Reader);       //Get file
+        std::cout << Art << std::endl;               //Print it to the screen
+        Reader.close ();
+
+    }
+  */
+}
+
 void draw_openDoor() {
      int animation_delay = 300;
 
@@ -444,41 +480,6 @@ void draw_openDoor() {
      system("CLS");
 
 
-}
-
-// *********************************
-// Helper functions
-// *********************************
-
-void draw(string ascii_art_file) {
-       std::ifstream Reader("_GAME_ART_CHEST_OPEN_1.txt");
-        std::string Art = getFileContents (Reader);       //Get file
-        std::cout << Art << std::endl;               //Print it to the screen
-        Reader.close ();                  //Open file
-        giveGold(50);
-
-    /**
-    if(ascii_art_file == _GAME_ART_CHEST_OPEN){
-        std::ifstream Reader("_GAME_ART_CHEST_OPEN_1.txt");
-        std::string Art = getFileContents (Reader);       //Get file
-        std::cout << Art << std::endl;               //Print it to the screen
-        Reader.close ();                  //Open file
-        giveGold(50);
-    } else if(ascii_art_file == _GAME_ART_CHEST_OPEN_2){
-        std::ifstream Reader("_GAME_ART_CHEST_OPEN_2.txt");
-        std::string Art = getFileContents (Reader);       //Get file
-        std::cout << Art << std::endl;               //Print it to the screen
-        Reader.close ();                  //Open file
-        giveGold(100);
-
-    } else if(ascii_art_file == _GAME_ART_CHEST_CLOSED){
-        std::ifstream Reader("_GAME_ART_CHEST_CLOSED_1.txt");
-        std::string Art = getFileContents (Reader);       //Get file
-        std::cout << Art << std::endl;               //Print it to the screen
-        Reader.close ();
-
-    }
-  */
 }
 
 void giveGold(int gold){
@@ -735,7 +736,7 @@ void populateWorld() {
 // ____________________
     // populate world items
     // --------------------
-	waitProgressBar("    Loading items", 4);
+	waitProgressBar("    Loading world items", 10);
     _WORLD_ITEMS[0] = Item("Potion of Healing", "Drink this potion to heal thyself", 100, 0, 100, 100);
     _WORLD_ITEMS[1] = Item("Sword of Shadows", "Kills undead", 200, 40, 0, 78);
     _WORLD_ITEMS[2] = Item("Shield of Blocking", "A durable shield that can block heavy blows", 300, 0, 0, 30);
@@ -745,7 +746,7 @@ void populateWorld() {
     // ____________________
     // populate world monsters
     // --------------------
-    waitProgressBar("    Loading monsters", 5);
+    //waitProgressBar("    Loading monsters", 5);
     // (name, age, damage, health, armor)
     _WORLD_MONSTERS[0] = Player("Ghoul", 30, 3, 10, 5);
     _WORLD_MONSTERS[1] = Player("Commander Ghoul", 80, 20, 100, 15);

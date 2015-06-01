@@ -27,6 +27,7 @@ public:
     int getDamage() const;
     int getGold() const;
     int getArmor() const;
+    bool getAlive() const;
 
     void setName(string n);
     void setAge(int a);
@@ -35,7 +36,7 @@ public:
     void setGold(int gold);
     void giveGold(int gold);
     void setAromor(int ar);
-
+    void setAlive(bool alive);
 
 private:
 	string _name;
@@ -44,6 +45,7 @@ private:
 	int _armor;
 	int _damage;
 	int _gold;
+	bool _alive;
 
 
 };
