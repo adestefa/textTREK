@@ -82,7 +82,11 @@ using namespace std;
         }
         return 0;
     }
+    int Room::hasMonster() {
+        refeshCounts();
+        return _numOfMonsters;
 
+    }
 
     void Room::specs() {
         cout << "\n" << _desc << endl;
@@ -105,13 +109,43 @@ using namespace std;
 
         if(cnt > 0){
             if(cnt == 1) {
-                cout << "You find a " << monsters << endl;
+               // cout << "You find a " << monsters << endl;
             } else if (cnt > 1) {
                 cout << "You find " << cnt << " monsters: " << monsters << endl;
             }
 
         } else {
             cout << "No monsters found." << endl;
+        }
+
+
+    }
+// report all things in this room
+    Player Room::searchRoomForMonsters() {
+        string monsters;
+        string name;
+        Player thisMon;
+        int cnt = 0;
+        for(int m = 0; m < 5; m++) {
+                name = _monsters[m].getName();
+                if(name != ""){
+                    monsters = monsters + name + " ";
+                    thisMon = _monsters[m];
+                    cnt++;
+                }
+        }
+
+        if(cnt > 0){
+            if(cnt == 1) {
+                cout << "You find a " << monsters << endl;
+            } else if (cnt > 1) {
+                cout << "You find " << cnt << " monsters: " << monsters << endl;
+            }
+            return thisMon;
+
+        } else {
+            cout << "No monsters found." << endl;
+            return Player("null",0,0,0,0);
         }
 
 

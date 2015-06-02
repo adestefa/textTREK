@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <string>
+#include <time.h>
+#include <stdlib.h>
+
 
 using namespace std;
 
@@ -18,24 +21,32 @@ public:
 
     ~Player();
 
-    void specs() const;
-    void specsOneline() const;
 
-    string getName() const;
-    int getAge() const;
-    int getHealth() const;
-    int getDamage() const;
-    int getGold() const;
-    int getArmor() const;
-    bool getAlive() const;
+    // behaviors
+    void specs();
+    void specsOneline();
+    bool attack (Player enemy);
+    bool attackM (Player enemy); // monster attack
+    void takeDamage(int damage);
+    int randomFlop();
 
+    // Getters
+    string getName();
+    int getAge();
+    int getHealth();
+    int getDamage();
+    int getGold();
+    int getArmor();
+    bool getAlive();
+
+    // Setters
     void setName(string n);
     void setAge(int a);
     void setHealth(int h);
     void setDamage(int d);
     void setGold(int gold);
     void giveGold(int gold);
-    void setAromor(int ar);
+    void setArmor(int ar);
     void setAlive(bool alive);
 
 private:

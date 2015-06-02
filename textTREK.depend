@@ -6,7 +6,7 @@
 	<iostream>
 	<string>
 
-1433122098 source:c:\users\admin\desktop\c++\texttrek\texttrek\main.cpp
+1433186680 source:c:\users\admin\desktop\c++\texttrek\texttrek\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -27,17 +27,17 @@
 1432492971 c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
 	"Player.h"
 
-1433122529 c:\users\admin\desktop\c++\texttrek\texttrek\player.h
+1433186015 c:\users\admin\desktop\c++\texttrek\texttrek\player.h
 	<iostream>
 	<string>
 
-1433122524 source:c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
+1433186000 source:c:\users\admin\desktop\c++\texttrek\texttrek\player.cpp
 	"Player.h"
 
-1432946735 source:c:\users\admin\desktop\c++\texttrek\texttrek\room.cpp
+1433186817 source:c:\users\admin\desktop\c++\texttrek\texttrek\room.cpp
 	"Room.h"
 
-1432945462 c:\users\admin\desktop\c++\texttrek\texttrek\room.h
+1433124071 c:\users\admin\desktop\c++\texttrek\texttrek\room.h
 	<iostream>
 	<string>
 	"Player.h"
@@ -52,4 +52,51 @@
 	<string>
 
 1433121653 c:\users\admin\desktop\c++\texttrek\texttrek\texttrek.h
+
+1432841461 source:c:\packratdata\github\texttrek\item.cpp
+	"Item.h"
+
+1432495630 c:\packratdata\github\texttrek\item.h
+	<iostream>
+	<string>
+
+1433220242 source:c:\packratdata\github\texttrek\player.cpp
+	"Player.h"
+
+1433220022 c:\packratdata\github\texttrek\player.h
+	<iostream>
+	<string>
+	<time.h>
+	<stdlib.h>
+
+1433186817 source:c:\packratdata\github\texttrek\room.cpp
+	"Room.h"
+
+1433124071 c:\packratdata\github\texttrek\room.h
+	<iostream>
+	<string>
+	"Player.h"
+	"Item.h"
+
+1433225223 source:c:\packratdata\github\texttrek\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	<fstream>
+	<time.h>
+	<stdlib.h>
+	<windows.h>
+	"Player.h"
+	"Item.h"
+	"Room.h"
+	"Path.h"
+	"textTREK.h"
+
+1432936681 c:\packratdata\github\texttrek\path.h
+	<iostream>
+	<string>
+
+1433121653 c:\packratdata\github\texttrek\texttrek.h
+
+1433194770 source:c:\packratdata\github\texttrek\utilities.cpp
 

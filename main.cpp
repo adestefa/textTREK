@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 #include <fstream>
 #include <time.h>
 #include <stdlib.h>
@@ -15,8 +14,8 @@
 using namespace std;
 
 string getFileContents (std::ifstream& File);
-
-
+void fight(Player mon);
+void flee(Player mon);
 // *********************************
 // random object factory functions
 // *********************************
@@ -31,12 +30,9 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.3.1";
-// command prompt show to user when they type
-string _CMD_PROMPT = "$textTREK>";
+string _VER = "0.3.3";
 // global string for all user input
 string _input = "";
-
 
 // global list of all the items in the world
 Item _WORLD_ITEMS[4];
@@ -48,17 +44,9 @@ Player _WORLD_MONSTERS[5];
 Room _WORLD_MAP[5][5];
 
 
-
-// loading delay
-int _GAME_LOADING_DELAY = 10;
-
-// show loading progress bars when true
-bool _GAME_SHOW_LOADING = true;
-
 // list of room descriptions
 int _NUM_ROOM_DESC = 6;
 string _ROOM_DESC[6];
-
 
 // game art
 string _GAME_ART_CHEST_OPEN = "_GAME_ART_CHEST_OPEN_1.txt";
@@ -70,13 +58,29 @@ bool _GAME_OVER = false;
 bool _GAME_RESTART = false;
 
 
-// the user object
-Player _User;
-
 // stores the room the user is in
 int _ROOM_POINTER_A = 0;
 int _ROOM_POINTER_B = 0;
 Room _GAME_CURRENT_ROOM;
+
+
+// command prompt show to user when they type
+string _CMD_PROMPT = "$textTREK>";
+
+// loading delay
+int _GAME_LOADING_DELAY = 10;
+
+// show loading progress bars when true
+bool _GAME_SHOW_LOADING = true;
+
+// spawn random status when true
+bool _GAME_RANDOM_PLAYER = false;
+
+
+// the user object
+Player _User;
+// current monster player is fighting
+Player _Monster;
 
 
 // *********************************
@@ -135,16 +139,22 @@ void startup() {
     setBackground("black");
     system("CLS");
     cout << "\n\n           ADVENTURE AWAITS!\n\n";
-    cout << "\n What do they call you?>";
 
+    // if true we will ask user for name
+    if(_GAME_RANDOM_PLAYER) {
+        cout << "\n What do they call you?>\n";
+        string playerName;
+        cin >> playerName;
+        _User = randomPlayer();
+        _User.setName(playerName);
 
-    string playerName;
-    cin >> playerName;
-    cout << "\n";
-    _User = randomPlayer();
-    _User.setName(playerName);
+    // use story's main character
+    }else {
+        Player p("Walter Landen", 40, 10, 50, 10);
+        _User = p;
+   }
     _User.specs();
-    cout << "\n\n Now it begins...\n\n";
+    cout << "\n\n\n";
     system("PAUSE");
     system("cls");
    // cout << "\n\n\nYou are standing in an open field, the sun is setting\n in the West and there is a cave to your East.\n\n";
@@ -172,54 +182,6 @@ void getUserInput() {
         if (!_GAME_OVER && !exitCMD) {
             getUserInput();
         }
-    }
-}
-
-void tryDoor(string direction) {
-    if(_GAME_CURRENT_ROOM.hasDoor(direction)) {
-        cout << "You grasp the iron handle and open the door...\n";
-
-        if(direction == "north"){
-            int a = (_ROOM_POINTER_A - 1);
-            if (a >= 0){
-                setRoom(a,_ROOM_POINTER_B);
-            } else {
-                cout << "The door will not open, there seems to be a problem.\n";
-                cout << "data: " << a << "," << _ROOM_POINTER_B << endl;
-            }
-
-       } else if(direction == "south"){
-            int a = (_ROOM_POINTER_A + 1);
-            if (a >= 0){
-                setRoom(a,_ROOM_POINTER_B);
-            } else {
-                cout << "The door will not open, there seems to be a problem.\n";
-                cout << "data: " << a << "," << _ROOM_POINTER_B << endl;
-            }
-       } else if(direction == "east"){
-            int b = (_ROOM_POINTER_B + 1);
-            if (b >= 0){
-                setRoom(_ROOM_POINTER_A,b);
-            } else {
-                cout << "The door will not open, there seems to be a problem.\n";
-                cout << "data: " << _ROOM_POINTER_A << "," << b << endl;
-            }
-        } else if(direction == "west"){
-            int b = (_ROOM_POINTER_A - 1);
-            if (b >= 0){
-                setRoom(_ROOM_POINTER_A,b);
-            } else {
-                cout << "The door will not open, there seems to be a problem.\n";
-                cout << "data: " << _ROOM_POINTER_A << "," << b << endl;
-            }
-        } else {
-            cout << "Something really bad happened, the door disappeared.\n";
-             cout << "data: " << direction << endl;
-        }
-
-    } else {
-        cout << "There is no door here.\n";
-
     }
 }
 
@@ -262,7 +224,8 @@ bool processCMD(string cmd) {
         setBackground("black");
 
     } else if(cmd == "flee"){
-	cout << "As a true coward, you scuttle away.";
+        cout << "As a true coward, you scuttle away.";
+        flee(_Monster);
 
     } else if(cmd == "stats"){
          _User.specs();
@@ -320,6 +283,7 @@ bool processCMD(string cmd) {
 
     } else if(cmd == "attack"){
        cout << "You raise your sword and start screaming as you lunge at your opponent.\n";
+       fight(_Monster);
 
     } else if(cmd == "help"){
         cout << "valid commands: 'North', 'South', 'East', 'West', 'pickup' \n\n";
@@ -568,8 +532,71 @@ void enterRoom() {
      draw_openDoor();
      flashScreen();
      string desc =  _GAME_CURRENT_ROOM._desc;
-     cout << "\n\n\t" << desc << endl;
+    cout << "\n\n\t" << desc << endl;
+
+    //TODO: check for monsters
+     int monsters = _GAME_CURRENT_ROOM.hasMonster();
+     if(monsters) {
+        cout << " \n  Warning, " << monsters << " monsters found!\n";
+
+
+        _Monster = _GAME_CURRENT_ROOM.searchRoomForMonsters();
+        cout << "   A " << _Monster.getName() << " approaches!\n";
+
+        cout << "    (a)ttack or (f)lee? \n";
+        string in;
+        cin >> in;
+        if(in == "a"){
+            fight(_Monster);
+        } else {
+            flee(_Monster);
+        }
+     }
 }
+
+void fight(Player mon){
+
+    int monDamage = mon.getDamage();
+    string monName = mon.getName();
+
+    // does the monster attack first?
+    if(randomFlop()) {
+
+        cout << "  The " << monName << " lunges at you and swings!\n";
+        if(randomFlop()) {
+            cout << "He HIT, with " << monDamage << "pts of damage!\n";
+            _User.takeDamage(monDamage);
+        } else {
+            cout << "Miss!";
+        }
+    } else {
+
+        _User.attack(mon);
+    }
+}
+
+void flee(Player mon){
+
+    int monDamage = mon.getDamage();
+    string monName = mon.getName();
+
+    // does the monster attack first?
+    if(randomFlop()) {
+
+        cout << "  The " << monName << " lunges at you and swings!\n";
+        if(randomFlop()) {
+            cout << "He HIT, with " << monDamage << "pts of damage!\n";
+            _User.takeDamage(monDamage);
+        } else {
+            cout << "Miss!";
+        }
+    } else {
+
+        cout << "   You get out alive!";
+    }
+
+}
+
 
 void nextRoom() {
 
@@ -605,6 +632,56 @@ void showMap() {
         }
     }
 }
+
+void tryDoor(string direction) {
+    if(_GAME_CURRENT_ROOM.hasDoor(direction)) {
+        cout << "You grasp the iron handle and open the door...\n";
+
+        if(direction == "north"){
+            int a = (_ROOM_POINTER_A - 1);
+            if (a >= 0){
+                setRoom(a,_ROOM_POINTER_B);
+            } else {
+                cout << "The door will not open, there seems to be a problem.\n";
+                cout << "data: " << a << "," << _ROOM_POINTER_B << endl;
+            }
+
+       } else if(direction == "south"){
+            int a = (_ROOM_POINTER_A + 1);
+            if (a >= 0){
+                setRoom(a,_ROOM_POINTER_B);
+            } else {
+                cout << "The door will not open, there seems to be a problem.\n";
+                cout << "data: " << a << "," << _ROOM_POINTER_B << endl;
+            }
+       } else if(direction == "east"){
+            int b = (_ROOM_POINTER_B + 1);
+            if (b >= 0){
+                setRoom(_ROOM_POINTER_A,b);
+            } else {
+                cout << "The door will not open, there seems to be a problem.\n";
+                cout << "data: " << _ROOM_POINTER_A << "," << b << endl;
+            }
+        } else if(direction == "west"){
+            int b = (_ROOM_POINTER_A - 1);
+            if (b >= 0){
+                setRoom(_ROOM_POINTER_A,b);
+            } else {
+                cout << "The door will not open, there seems to be a problem.\n";
+                cout << "data: " << _ROOM_POINTER_A << "," << b << endl;
+            }
+        } else {
+            cout << "Something really bad happened, the door disappeared.\n";
+             cout << "data: " << direction << endl;
+        }
+
+    } else {
+        cout << "There is no door here.\n";
+
+    }
+}
+
+
 
 // *********************************
 // randomizer object factories
@@ -655,7 +732,6 @@ Item randomItem() {
 */
 Room randomRoom(int north, int south, int east, int west) {
 
-
     // generate a Room object with a random description and defined doors
     Room r(_ROOM_DESC[randomNumber(0, _NUM_ROOM_DESC)], north, south, east, west);
 
@@ -679,6 +755,7 @@ Room randomRoom(int north, int south, int east, int west) {
    Return a randomly generated player character
 */
 Player randomPlayer() {
+
     cout << "\n" << "  Generating random character [";
     int age = randomNumber(15, 40);
     Sleep(500);
@@ -690,6 +767,7 @@ Player randomPlayer() {
     Player p("r", age, damage, health, armor);
     cout << "] Completed!";
     return p;
+
 }
 /**
    Player had died (end game)

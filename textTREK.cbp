@@ -31,6 +31,8 @@
 		<Unit filename="README.md" />
 		<Unit filename="Room.cpp" />
 		<Unit filename="Room.h" />
+		<Unit filename="Utilities.cpp" />
+		<Unit filename="Utilities.h" />
 		<Unit filename="_GAME_ART_CHEST_CLOSED_1.txt" />
 		<Unit filename="_GAME_ART_CHEST_OPEN_1.txt" />
 		<Unit filename="_GAME_ART_CHEST_OPEN_2.txt" />
@@ -38,6 +40,7 @@
 		<Unit filename="_GAME_ART_TEST.txt" />
 		<Unit filename="_GAME_ART_TITLE.txt" />
 		<Unit filename="main.cpp" />
+		<Unit filename="textTREK.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
