@@ -1,5 +1,5 @@
 # textTREK
-A text adventure in C++.
+A text adventure using C++.
 
 I always wanted to write my own text-driven adventure game, do more with less philosophy.  Here I revisit old-school gaming while exploring how to incorporate new unrelated gameplay elements on the cmd line.
 
