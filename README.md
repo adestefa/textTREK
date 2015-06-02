@@ -13,7 +13,7 @@ Your name is Dr. Walter Landen. You are part of a rescue expedition to an unchar
 
 It was discovered by your colleague James Waters, who was a bit of a celebrity in the archaeology community for discovering the island, until he went missing.
 
-Five years after James began searching the island with a small crew, no one has heard from him. No evidence but a single transmission that left the island two weeks ago. It was a weak signal so most of the message was lost. James in his own voice saying something about water and the sun, that part was scrambled, but the next was very clear.. "...but that doesn't matter now, it is too late. Whatever you do, don't come here, if you..." then the message scrambled again and was lost.
+Five years after James began searching the island with a small crew, no one has heard from him. No evidence but a single transmission that left the island two weeks ago. It was a weak signal so most of the message was lost. James in his own voice saying something about water and the sun, that part was scrambled, but the next was very clear.. "*...but that doesn't matter now, it is too late. Whatever you do, don't come here, if you...*" then the message scrambled again and was lost.
 
 Thinking about the message, you keep coming back to 'water'. Was he just telling us his name, or did he mean actual water?. Also the sun, what does that have to do with anything? And why is it too late? The questions mount.
 
