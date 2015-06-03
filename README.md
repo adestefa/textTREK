@@ -17,9 +17,11 @@ Five years after James began searching the island with a small crew, no one has 
 
 Thinking about the message, you keep coming back to 'water'. Was he just telling us his name, or did he mean actual water?. Also the sun, what does that have to do with anything? And why is it too late? The questions mount.
 
+---
+
 As the only living person alive that knows Waters work as well, you have been hired to go find out what happened to James, and finish his work. As leader of this expedition, you have been given twenty men, two months supplies and some of the latest high-tech gear.
 
-You are on a large boat with your crew and supplies. You are on course for the island and should be coming up on it any minute now. You left port late so you have arrived late at night. This night is especially dark as there is also a lot of fog on the water.
+You are on a large boat with your crew and supplies. You are on course for the island and should be coming up on it any minute now. You left port late so you have arrived late at night. This night is especially dark as there is no moon and also a lot of fog on the water.
 
 Most of the men are asleep, but you hear the boat crew shouting outside the cabin and get up to investigate. you make your way up to the bridge where the captain is driving the boat. You stand at the bridge door, "Permission to board Captain?".
 
