@@ -19,7 +19,7 @@ Thinking about the message, you keep coming back to 'water'. Was he just telling
 
 ---
 
-# Mission
+### Mission
 
 As the only living person alive that knows Waters work as well, you have been hired to go find out what happened to James, and finish his work. As leader of this expedition, you have been given twenty men, two months supplies and some of the latest high-tech gear.
 
