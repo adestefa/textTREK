@@ -33,12 +33,21 @@
 		<Unit filename="Room.h" />
 		<Unit filename="Utilities.cpp" />
 		<Unit filename="Utilities.h" />
-		<Unit filename="_GAME_ART_CHEST_CLOSED_1.txt" />
-		<Unit filename="_GAME_ART_CHEST_OPEN_1.txt" />
-		<Unit filename="_GAME_ART_CHEST_OPEN_2.txt" />
-		<Unit filename="_GAME_ART_DOOR_1.txt" />
-		<Unit filename="_GAME_ART_TEST.txt" />
-		<Unit filename="_GAME_ART_TITLE.txt" />
+		<Unit filename="art/_GAME_ART_CHEST_CLOSED_1.txt" />
+		<Unit filename="art/_GAME_ART_CHEST_OPEN_1.txt" />
+		<Unit filename="art/_GAME_ART_CHEST_OPEN_2.txt" />
+		<Unit filename="art/_GAME_ART_DOOR_1.txt" />
+		<Unit filename="art/_GAME_ART_DOOR_2.txt" />
+		<Unit filename="art/_GAME_ART_DOOR_3.txt" />
+		<Unit filename="art/_GAME_ART_DOOR_4.txt" />
+		<Unit filename="art/_GAME_ART_DOOR_5.txt" />
+		<Unit filename="art/_GAME_ART_DOOR_6.txt" />
+		<Unit filename="art/_GAME_ART_DOOR_7.txt" />
+		<Unit filename="art/_GAME_ART_DOOR_8.txt" />
+		<Unit filename="art/_GAME_ART_MAP_TEST.txt" />
+		<Unit filename="art/_GAME_ART_PLAYER_DIED.txt" />
+		<Unit filename="art/_GAME_ART_TEST.txt" />
+		<Unit filename="art/_GAME_ART_TITLE.txt" />
 		<Unit filename="main.cpp" />
 		<Unit filename="textTREK.h" />
 		<Extensions>

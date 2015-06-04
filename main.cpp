@@ -16,6 +16,7 @@ using namespace std;
 string getFileContents (std::ifstream& File);
 void fight(Player mon);
 void flee(Player mon);
+void fightingPrompt();
 // *********************************
 // random object factory functions
 // *********************************
@@ -49,10 +50,10 @@ int _NUM_ROOM_DESC = 6;
 string _ROOM_DESC[6];
 
 // game art
-string _GAME_ART_CHEST_OPEN = "_GAME_ART_CHEST_OPEN_1.txt";
-string _GAME_ART_CHEST_OPEN_2 = "_GAME_ART_CHEST_OPEN_2.txt";
-string _GAME_ART_CHEST_CLOSED = "_GAME_ART_CHEST_CLOSED_1.txt";
-string _GAME_ART_PLAYER_DIED = "_GAME_ART_PLAYER_DIED.txt";
+string _GAME_ART_CHEST_OPEN = "art/_GAME_ART_CHEST_OPEN_1.txt";
+string _GAME_ART_CHEST_OPEN_2 = "art/_GAME_ART_CHEST_OPEN_2.txt";
+string _GAME_ART_CHEST_CLOSED = "art/_GAME_ART_CHEST_CLOSED_1.txt";
+string _GAME_ART_PLAYER_DIED = "art/_GAME_ART_PLAYER_DIED.txt";
 
 bool _GAME_OVER = false;
 bool _GAME_RESTART = false;
@@ -82,6 +83,7 @@ Player _User;
 // current monster player is fighting
 Player _Monster;
 
+char SplashImage[] = "art/_GAME_ART_TITLE.txt";
 
 // *********************************
 // Do the work!
@@ -96,7 +98,7 @@ int main()
 }
 void splashScreen() {
         string Art;
-        ifstream Reader1("_GAME_ART_TITLE.txt");
+        ifstream Reader1(SplashImage);
         Art = getFileContents (Reader1);       //Get file
         cout << Art << "    v" + _VER + "\n\n";
         Reader1.close();
@@ -352,7 +354,7 @@ bool processCMD(string cmd) {
 // *********************************
 
 void draw(string ascii_art_file) {
-       std::ifstream Reader("_GAME_ART_CHEST_OPEN_1.txt");
+       std::ifstream Reader("art/_GAME_ART_CHEST_OPEN_1.txt");
         std::string Art = getFileContents (Reader);       //Get file
         std::cout << Art << std::endl;               //Print it to the screen
         Reader.close ();                  //Open file
@@ -387,49 +389,49 @@ void draw_openDoor() {
 
      string Art;
      system("CLS");
-     ifstream Reader1("_GAME_ART_DOOR_1.txt");
+     ifstream Reader1("art/_GAME_ART_DOOR_1.txt");
      Art = getFileContents (Reader1);
      cout << Art;
      Reader1.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader2("_GAME_ART_DOOR_2.txt");
+     ifstream Reader2("art/_GAME_ART_DOOR_2.txt");
      Art = getFileContents (Reader2);
      cout << Art;
      Reader2.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader3("_GAME_ART_DOOR_3.txt");
+     ifstream Reader3("art/_GAME_ART_DOOR_3.txt");
      Art = getFileContents (Reader3);
      cout << Art;
      Reader3.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader4("_GAME_ART_DOOR_4.txt");
+     ifstream Reader4("art/_GAME_ART_DOOR_4.txt");
      Art = getFileContents (Reader4);
      cout << Art;
      Reader4.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader5("_GAME_ART_DOOR_5.txt");
+     ifstream Reader5("art/_GAME_ART_DOOR_5.txt");
      Art = getFileContents (Reader5);
      cout << Art;
      Reader5.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader6("_GAME_ART_DOOR_6.txt");
+     ifstream Reader6("art/_GAME_ART_DOOR_6.txt");
      Art = getFileContents (Reader6);
      cout << Art;
      Reader6.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader7("_GAME_ART_DOOR_7.txt");
+     ifstream Reader7("art/_GAME_ART_DOOR_7.txt");
      Art = getFileContents (Reader7);
      cout << Art;
      Reader7.close ();
@@ -542,7 +544,12 @@ void enterRoom() {
 
         _Monster = _GAME_CURRENT_ROOM.searchRoomForMonsters();
         cout << "   A " << _Monster.getName() << " approaches!\n";
+        fightingPrompt();
 
+     }
+}
+
+void fightingPrompt() {
         cout << "    (a)ttack or (f)lee? \n";
         string in;
         cin >> in;
@@ -551,17 +558,18 @@ void enterRoom() {
         } else {
             flee(_Monster);
         }
-     }
+
 }
 
 void fight(Player mon){
-
+    // get info about monster
     int monDamage = mon.getDamage();
     string monName = mon.getName();
 
-    // does the monster attack first?
+    // flip to see if the monster attacks first as you walk in the room
     if(randomFlop()) {
 
+        // Monster attacks!
         cout << "  The " << monName << " lunges at you and swings!\n";
         if(randomFlop()) {
             cout << "He HIT, with " << monDamage << "pts of damage!\n";
@@ -569,9 +577,31 @@ void fight(Player mon){
         } else {
             cout << "Miss!";
         }
-    } else {
 
-        _User.attack(mon);
+     // Monster does not attack
+    } else {
+        _User.attack(mon); // let's hit em boys!
+    }
+
+
+    // ok, that ends one volley of attacks.
+    // Now let's tally who is still alive and keep fighting
+
+
+    // the monster died!
+    if(mon.getHealth() == 0 || !mon.getAlive()) {
+        cout << "You killed the " << mon.getName() << "!\n";
+    }
+
+    // Player died!
+    if(_User.getHealth() == 0 || !_User.getAlive()) {
+        cout << "The " << mon.getName() << " killed you!\n";
+        Sleep(1000);
+        playerDeath();
+
+    // both are still alive, let's go at it again
+    } else if (mon.getAlive()){
+         fightingPrompt(); // let's hit em boys!
     }
 }
 
@@ -821,7 +851,7 @@ void populateWorld() {
     _WORLD_MONSTERS[0] = Player("Ghoul", 30, 3, 10, 5);
     _WORLD_MONSTERS[1] = Player("Commander Ghoul", 80, 20, 100, 15);
     _WORLD_MONSTERS[2] = Player("Skeleton", 1000, 10, 20, 4);
-    _WORLD_MONSTERS[3] = Player("Orc", 200, 50, 200, 50);
+    _WORLD_MONSTERS[3] = Player("Orc", 200, 50, 20, 50);
     _WORLD_MONSTERS[4] = Player("Imp", 200, 7, 20, 2);
     //cout << "Monster loading complete!\n";
 

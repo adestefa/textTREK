@@ -60,7 +60,7 @@
 	<iostream>
 	<string>
 
-1433220242 source:c:\packratdata\github\texttrek\player.cpp
+1433308418 source:c:\packratdata\github\texttrek\player.cpp
 	"Player.h"
 
 1433220022 c:\packratdata\github\texttrek\player.h
@@ -69,7 +69,7 @@
 	<time.h>
 	<stdlib.h>
 
-1433186817 source:c:\packratdata\github\texttrek\room.cpp
+1433225325 source:c:\packratdata\github\texttrek\room.cpp
 	"Room.h"
 
 1433124071 c:\packratdata\github\texttrek\room.h
@@ -78,7 +78,7 @@
 	"Player.h"
 	"Item.h"
 
-1433225223 source:c:\packratdata\github\texttrek\main.cpp
+1433309111 source:c:\packratdata\github\texttrek\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -99,4 +99,51 @@
 1433121653 c:\packratdata\github\texttrek\texttrek.h
 
 1433194770 source:c:\packratdata\github\texttrek\utilities.cpp
+
+1432841461 source:c:\savemedata\github\texttrek\item.cpp
+	"Item.h"
+
+1432495630 c:\savemedata\github\texttrek\item.h
+	<iostream>
+	<string>
+
+1433309369 source:c:\savemedata\github\texttrek\player.cpp
+	"Player.h"
+
+1433220022 c:\savemedata\github\texttrek\player.h
+	<iostream>
+	<string>
+	<time.h>
+	<stdlib.h>
+
+1433225325 source:c:\savemedata\github\texttrek\room.cpp
+	"Room.h"
+
+1433124071 c:\savemedata\github\texttrek\room.h
+	<iostream>
+	<string>
+	"Player.h"
+	"Item.h"
+
+1433194770 source:c:\savemedata\github\texttrek\utilities.cpp
+
+1433396257 source:c:\savemedata\github\texttrek\main.cpp
+	<iostream>
+	<string>
+	<vector>
+	<fstream>
+	<time.h>
+	<stdlib.h>
+	<windows.h>
+	"Player.h"
+	"Item.h"
+	"Room.h"
+	"Path.h"
+	"textTREK.h"
+
+1432936681 c:\savemedata\github\texttrek\path.h
+	<iostream>
+	<string>
+
+1433121653 c:\savemedata\github\texttrek\texttrek.h
 

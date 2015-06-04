@@ -54,7 +54,7 @@
 
     }
 
-
+    // Player _User attacks monster
     bool Player::attack(Player enemy) {
         cout << "  -You swing at the " << enemy.getName() << "\n";
         if(randomFlop()) {
@@ -67,10 +67,12 @@
         }
     }
 
+    // Monster attacks player
     bool Player::attackM(Player enemy) {
         cout << "  -" << enemy.getName() << " jumps out and swings at you!\n";
         if(randomFlop()) {
-            cout << "  +HIT, you with " << _damage << "pts of damage!\n\n";
+            cout << "  +HIT, you with " << enemy.getDamage() << "pts of damage!\n\n";
+
             return true;
         } else {
             cout << "Miss!\n\n";
@@ -83,11 +85,13 @@
         result = this-> _health - damage;
         if(result > 0) {
            this-> setHealth(result);
-        } else if (result < 1) {
+        } else if (result < 1 || result == 0) {
            this-> setHealth(0);
            this-> setAlive(0);
         }
         cout << this->_name << " health is now " << this->_health << "\n;";
+
+
     }
 
 
