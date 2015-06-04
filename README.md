@@ -19,6 +19,8 @@ Thinking about the message, you keep coming back to 'water'. Was he just telling
 
 ---
 
+# Mission
+
 As the only living person alive that knows Waters work as well, you have been hired to go find out what happened to James, and finish his work. As leader of this expedition, you have been given twenty men, two months supplies and some of the latest high-tech gear.
 
 You are on a large boat with your crew and supplies. You are on course for the island and should be coming up on it any minute now. You left port late so you have arrived late at night. This night is especially dark as there is no moon and also a lot of fog on the water.
