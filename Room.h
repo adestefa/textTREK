@@ -19,11 +19,12 @@ public:
     Room();
     // desc
     Room(string);
+    Room(string, string);
     // desc, north, south, east, west
-    Room(string , int, int, int, int);
-    Room(string , int, int, int, int, Player[], Item[]);
-
+    Room(string, string, int, int, int, int);
+    Room(string, string, int, int, int, int, Player[], Item[]);
     //what's in the room?
+    string _name;
     string _desc;
     Player _monsters[5];
     Item _items[5];
@@ -39,6 +40,7 @@ public:
     void searchRoom();
     void specs();
     void refeshCounts();
+    string getName();
 
 private:
 

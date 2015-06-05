@@ -6,14 +6,25 @@ using namespace std;
 
     */
     Room::Room(){
-        _desc = "Empty room";
+        _name = "Someplace";
+        _desc = "";
         _doors[0]= 1;
         _doors[1]= 0;
         _doors[2]= 0; // switch index to match phonic (North,South,East,West)
         _doors[3]= 0;
     }
 
-    Room::Room(string desc){
+    Room::Room(string name){
+         _name = name;
+        _desc = "";
+        _doors[0]= 1;
+        _doors[1]= 0;
+        _doors[2]= 0;
+        _doors[3]= 0;
+    }
+
+        Room::Room(string name, string desc){
+        _name = name;
         _desc = desc;
         _doors[0]= 1;
         _doors[1]= 0;
@@ -22,7 +33,8 @@ using namespace std;
     }
 
 
-    Room::Room(string desc, int north, int south, int east, int west){
+    Room::Room(string name, string desc, int north, int south, int east, int west){
+        _name = name;
         _desc = desc;
         _doors[0]= north;
         _doors[1]= south;
@@ -31,7 +43,8 @@ using namespace std;
 
     }
 
-     Room::Room(string desc, int north, int south, int east, int west, Player monsters[], Item items[]){
+     Room::Room(string name, string desc, int north, int south, int east, int west, Player monsters[], Item items[]){
+        _name = name;
         _desc = desc;
         _monsters[5] = _monsters[5];
         _items[5] = items[5];
@@ -40,6 +53,9 @@ using namespace std;
         _doors[2]= east;
         _doors[3]= west;
 
+    }
+    string Room::getName() {
+        return _name;
     }
 
     void Room::refeshCounts() {
@@ -61,8 +77,12 @@ using namespace std;
         }
         _numOfItems = c;
 
-      cout << "mons:" << _numOfMonsters << " items:" << _numOfItems << endl;
+      cout  << " mons:" << _numOfMonsters << " items:" << _numOfItems << endl;
     }
+
+
+
+
 
     void Room::getDoors(){
         cout << "[" << _doors[0] << "," << _doors[1] << "," << _doors[2] << "," << _doors[3] << "]\n";
@@ -111,11 +131,11 @@ using namespace std;
             if(cnt == 1) {
                // cout << "You find a " << monsters << endl;
             } else if (cnt > 1) {
-                cout << "You find " << cnt << " monsters: " << monsters << endl;
+                cout << "  You find " << cnt << " monsters: " << monsters << endl;
             }
 
         } else {
-            cout << "No monsters found." << endl;
+            cout << "  No monsters found." << endl;
         }
 
 
@@ -137,14 +157,14 @@ using namespace std;
 
         if(cnt > 0){
             if(cnt == 1) {
-                cout << "You find a " << monsters << endl;
+                cout << "  You find a " << monsters << endl;
             } else if (cnt > 1) {
-                cout << "You find " << cnt << " monsters: " << monsters << endl;
+                cout << "  You find " << cnt << " monsters: " << monsters << endl;
             }
             return thisMon;
 
         } else {
-            cout << "No monsters found." << endl;
+            cout << "  No monsters found." << endl;
             return Player("null",0,0,0,0);
         }
 

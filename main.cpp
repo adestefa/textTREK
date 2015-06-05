@@ -17,6 +17,8 @@ string getFileContents (std::ifstream& File);
 void fight(Player mon);
 void flee(Player mon);
 void fightingPrompt();
+string getCMDPrompt();
+
 // *********************************
 // random object factory functions
 // *********************************
@@ -31,7 +33,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.3.3";
+string _VER = "0.3.5";
 // global string for all user input
 string _input = "";
 
@@ -48,6 +50,11 @@ Room _WORLD_MAP[5][5];
 // list of room descriptions
 int _NUM_ROOM_DESC = 6;
 string _ROOM_DESC[6];
+
+// list of room names
+int _NUM_ROOM_NAME = 6;
+string _ROOM_NAME[6];
+
 
 // game art
 string _GAME_ART_CHEST_OPEN = "art/_GAME_ART_CHEST_OPEN_1.txt";
@@ -66,7 +73,7 @@ Room _GAME_CURRENT_ROOM;
 
 
 // command prompt show to user when they type
-string _CMD_PROMPT = "$textTREK>";
+string _CMD_PROMPT = "$textTREK";
 
 // loading delay
 int _GAME_LOADING_DELAY = 10;
@@ -106,18 +113,24 @@ void splashScreen() {
         Beep(56, 100);
         createMap();
         Beep(56, 100);
-        Beep(56, 100);
         flashScreen();
         textTREK();
+        Beep(57, 100);
 }
+
+string getCMDPrompt() {
+   return _CMD_PROMPT + "::" + _GAME_CURRENT_ROOM.getName() + ">";
+}
+
 
 /**
     Game loading and start u
 */
 void textTREK() {
+
     // song1();
     // Homage to War Games Movie
-    cout << "\n\n    Shall we play a game?\n\n    " << _CMD_PROMPT;
+    cout << "\n\n    Shall we play a game?\n\n    " << _CMD_PROMPT << ">";
     // user input
     string in;
     cin >> in;
@@ -156,8 +169,8 @@ void startup() {
         _User = p;
    }
     _User.specs();
-    cout << "\n\n\n";
-    system("PAUSE");
+   // cout << "\n\n\n";
+   // system("PAUSE");
     system("cls");
    // cout << "\n\n\nYou are standing in an open field, the sun is setting\n in the West and there is a cave to your East.\n\n";
     setRoom(0,0);
@@ -172,6 +185,7 @@ void startup() {
 */
 void getUserInput() {
     if(_GAME_RESTART) {
+          system("CLS");
           textTREK();
     } else {
         Beep(56, 100);
@@ -179,7 +193,7 @@ void getUserInput() {
         getline(cin, in);
         bool exitCMD = processCMD(in);
         // moved prompt here to avoid empty duplicate on startup
-        cout << "\n" << _CMD_PROMPT;
+        cout << "\n" << getCMDPrompt();
         // continue to process input until exit command found
         if (!_GAME_OVER && !exitCMD) {
             getUserInput();
@@ -550,7 +564,8 @@ void enterRoom() {
 }
 
 void fightingPrompt() {
-        cout << "    (a)ttack or (f)lee? \n";
+        cout << "     (a)ttack or (f)lee? \n";
+        cout << "\n" << getCMDPrompt();
         string in;
         cin >> in;
         if(in == "a"){
@@ -558,6 +573,7 @@ void fightingPrompt() {
         } else {
             flee(_Monster);
         }
+
 
 }
 
@@ -572,10 +588,10 @@ void fight(Player mon){
         // Monster attacks!
         cout << "  The " << monName << " lunges at you and swings!\n";
         if(randomFlop()) {
-            cout << "He HIT, with " << monDamage << "pts of damage!\n";
+            cout << "   +He HIT, with " << monDamage << "pts of damage!\n";
             _User.takeDamage(monDamage);
         } else {
-            cout << "Miss!";
+            cout << "   -Miss!\n";
         }
 
      // Monster does not attack
@@ -590,12 +606,12 @@ void fight(Player mon){
 
     // the monster died!
     if(mon.getHealth() == 0 || !mon.getAlive()) {
-        cout << "You killed the " << mon.getName() << "!\n";
+        cout << "   You killed the " << mon.getName() << "!\n";
     }
 
     // Player died!
     if(_User.getHealth() == 0 || !_User.getAlive()) {
-        cout << "The " << mon.getName() << " killed you!\n";
+        cout << "   The " << mon.getName() << " killed you!\n";
         Sleep(1000);
         playerDeath();
 
@@ -762,8 +778,11 @@ Item randomItem() {
 */
 Room randomRoom(int north, int south, int east, int west) {
 
+    // get random number from 0 to size of items (6)
+    int ranNum = randomNumber(0, _NUM_ROOM_DESC);
+
     // generate a Room object with a random description and defined doors
-    Room r(_ROOM_DESC[randomNumber(0, _NUM_ROOM_DESC)], north, south, east, west);
+    Room r(_ROOM_NAME[ranNum], _ROOM_DESC[ranNum], north, south, east, west);
 
     // randomly add random monster
     if(randomFlop()) {
@@ -811,7 +830,6 @@ void playerDeath() {
     cout << "\n\n\n\n\n\n\n\n\n\t\t\t\t";
     cout << "YOU DIED!";
     cout << "\n\n\t\t\t\tContinue?";
-
     string in;
     cin >> in;
     if(in == "y" || in == "Y" || in == "yes" || in == "YES" || in == "Yes" || in == "YEs") {
@@ -854,6 +872,17 @@ void populateWorld() {
     _WORLD_MONSTERS[3] = Player("Orc", 200, 50, 20, 50);
     _WORLD_MONSTERS[4] = Player("Imp", 200, 7, 20, 2);
     //cout << "Monster loading complete!\n";
+
+
+     // random room names
+     _ROOM_NAME[0]="Entrance";
+     _ROOM_NAME[1]="Hall";
+     _ROOM_NAME[2]="Dinning Hall";
+     _ROOM_NAME[3]="Training room";
+     _ROOM_NAME[4]="Leak in the ceiling";
+     _ROOM_NAME[5]="Bedroom";
+
+
 
     // random room descriptions
      _ROOM_DESC[0]="A dark room lit with a torch on the North wall";
