@@ -29,6 +29,7 @@ public:
     bool attackM (Player enemy); // monster attack
     void takeDamage(int damage);
     int randomFlop();
+    void die();
 
     // Getters
     string getName();

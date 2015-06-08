@@ -556,10 +556,8 @@ void enterRoom() {
      int monsters = _GAME_CURRENT_ROOM.hasMonster();
      if(monsters) {
        //cout << " \n  Warning, " << monsters << " monsters found!\n";
-
-
         _Monster = _GAME_CURRENT_ROOM.searchRoomForMonsters();
-        cout << "   A " << _Monster.getName() << " approaches!\n";
+        cout << "   A " << _Monster.getName() << "(" << _Monster.getHealth() << ") approaches!\n";
         fightingPrompt();
 
      }
@@ -614,7 +612,7 @@ void fight(Player mon){
     // Player died!
     if(_User.getHealth() == 0 || !_User.getAlive()) {
         cout << "   The " << mon.getName() << " killed you!\n";
-        Sleep(1000);
+        Sleep(3000);
         playerDeath();
 
     // both are still alive, let's go at it again
@@ -920,10 +918,10 @@ void populateWorld() {
     // random room descriptions
      _ROOM_DESC[0]="A dark room lit with a torch on the North wall";
      _ROOM_DESC[1]="The smell of Orc is strong in this damp room";
-     _ROOM_DESC[2]="A large room with a tapestry on the South wall, and a bookshelf\n and candle on the North. In the center of\n the room is a large table with eight chairs.";
+     _ROOM_DESC[2]="A large room with a tapestry on the South wall, \n\t\t\tand a bookshelf and candle on the North. In the center of\n the room is a large table with eight chairs.";
      _ROOM_DESC[3]="A coat of arms is on the East wall";
      _ROOM_DESC[4]="The North wall is covered with moss.";
-     _ROOM_DESC[5]="The room appears empty other than a table with a platter. Stale bread fills your nose.";
+     _ROOM_DESC[5]="The room appears empty other than a table with a platter.\n\t\t\tStale bread fills your nose.";
 }
 
 

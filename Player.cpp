@@ -62,7 +62,7 @@
             enemy.takeDamage(this->_damage);
             return true;
         } else {
-            cout << "Miss!\n\n";
+            cout << "   Miss!\n";
             return false;
         }
     }
@@ -75,7 +75,7 @@
 
             return true;
         } else {
-            cout << "Miss!\n\n";
+            cout << "   Miss!\n";
             return false;
         }
     }
@@ -83,17 +83,27 @@
     void Player::takeDamage(int damage){
         int result = 0;
         result = this-> _health - damage;
+        cout << "    " << this->_name << " took " << damage << "pts of damage and how has " << result << "\n";
         if(result > 0) {
            this-> setHealth(result);
         } else if (result < 1 || result == 0) {
            this-> setHealth(0);
            this-> setAlive(0);
         }
+
         cout << this->_name << " health is now " << this->_health << "\n";
+          if (this->getHealth() == 0) {
+                this->die();
+        }
 
 
     }
 
+    void Player::die(){
+        this->setHealth(0);
+        this->setAlive(false);
+
+    }
 
     void Player::specs(){
         cout << endl << endl <<
