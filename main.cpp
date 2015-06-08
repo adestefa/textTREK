@@ -19,6 +19,14 @@ void flee(Player mon);
 void fightingPrompt();
 string getCMDPrompt();
 
+int fourSidedDie();
+int sixSidedDie();
+int eightSidedDie();
+int tenSidedDie();
+int twelveSidedDie();
+int twentySidedDie();
+
+
 // *********************************
 // random object factory functions
 // *********************************
@@ -33,7 +41,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.3.5";
+string _VER = "0.4.0";
 // global string for all user input
 string _input = "";
 
@@ -403,54 +411,48 @@ void draw_openDoor() {
 
      string Art;
      system("CLS");
-     ifstream Reader1("art/_GAME_ART_DOOR_1.txt");
+     ifstream Reader1("art/_GAME_ART_DOOR_1b.txt");
      Art = getFileContents (Reader1);
      cout << Art;
      Reader1.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader2("art/_GAME_ART_DOOR_2.txt");
+     ifstream Reader2("art/_GAME_ART_DOOR_2b.txt");
      Art = getFileContents (Reader2);
      cout << Art;
      Reader2.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader3("art/_GAME_ART_DOOR_3.txt");
+     ifstream Reader3("art/_GAME_ART_DOOR_3b.txt");
      Art = getFileContents (Reader3);
      cout << Art;
      Reader3.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader4("art/_GAME_ART_DOOR_4.txt");
+     ifstream Reader4("art/_GAME_ART_DOOR_4b.txt");
      Art = getFileContents (Reader4);
      cout << Art;
      Reader4.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader5("art/_GAME_ART_DOOR_5.txt");
+     ifstream Reader5("art/_GAME_ART_DOOR_5b.txt");
      Art = getFileContents (Reader5);
      cout << Art;
      Reader5.close ();
      Sleep(animation_delay);
 
      system("CLS");
-     ifstream Reader6("art/_GAME_ART_DOOR_6.txt");
+     ifstream Reader6("art/_GAME_ART_DOOR_6b.txt");
      Art = getFileContents (Reader6);
      cout << Art;
      Reader6.close ();
      Sleep(animation_delay);
+     system("CLS");
 
-     system("CLS");
-     ifstream Reader7("art/_GAME_ART_DOOR_7.txt");
-     Art = getFileContents (Reader7);
-     cout << Art;
-     Reader7.close ();
-     Sleep(animation_delay);
-     system("CLS");
 
 }
 
@@ -553,7 +555,7 @@ void enterRoom() {
     //TODO: check for monsters
      int monsters = _GAME_CURRENT_ROOM.hasMonster();
      if(monsters) {
-        cout << " \n  Warning, " << monsters << " monsters found!\n";
+       //cout << " \n  Warning, " << monsters << " monsters found!\n";
 
 
         _Monster = _GAME_CURRENT_ROOM.searchRoomForMonsters();
@@ -758,6 +760,37 @@ int randomFlop() {
     }
     return 1;
 }
+
+
+
+
+int fourSidedDie() {
+    int roll = randomNumber(1, 4);
+    return roll;
+}
+int sixSidedDie() {
+    int roll = randomNumber(1, 6);
+    return roll;
+}
+int eightSidedDie() {
+    int roll = randomNumber(1, 8);
+    return roll;
+}
+int tenSidedDie() {
+    int roll = randomNumber(1, 10);
+    return roll;
+}
+int twelveSidedDie() {
+    int roll = randomNumber(1, 12);
+    return roll;
+}
+int twentySidedDie() {
+    int roll = randomNumber(1, 20);
+    return roll;
+}
+
+
+
 
 /**
   Returns a random monster

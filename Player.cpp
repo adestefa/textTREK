@@ -62,7 +62,7 @@
             enemy.takeDamage(this->_damage);
             return true;
         } else {
-            cout << "Miss!";
+            cout << "Miss!\n\n";
             return false;
         }
     }
@@ -71,7 +71,7 @@
     bool Player::attackM(Player enemy) {
         cout << "  -" << enemy.getName() << " jumps out and swings at you!\n";
         if(randomFlop()) {
-            cout << "  +HIT, you with " << enemy.getDamage() << "pts of damage!\n\n";
+            cout << "  +HIT, you with " << enemy.getDamage() << "pts of damage!\n";
 
             return true;
         } else {
@@ -89,7 +89,7 @@
            this-> setHealth(0);
            this-> setAlive(0);
         }
-        cout << this->_name << " health is now " << this->_health << "\n;";
+        cout << this->_name << " health is now " << this->_health << "\n";
 
 
     }
