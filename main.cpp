@@ -41,7 +41,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.4.2";
+string _VER = "0.4.3";
 // global string for all user input
 string _input = "";
 
