@@ -14,8 +14,8 @@
 using namespace std;
 
 string getFileContents (std::ifstream& File);
-void fight(Player mon);
-void flee(Player mon);
+void fight(Player *mon);
+void flee(Player *mon);
 void fightingPrompt();
 string getCMDPrompt();
 
@@ -41,7 +41,7 @@ Player randomPlayer();
 // *********************************
 
 // version
-string _VER = "0.4.0";
+string _VER = "0.4.2";
 // global string for all user input
 string _input = "";
 
@@ -96,7 +96,7 @@ bool _GAME_RANDOM_PLAYER = false;
 // the user object
 Player _User;
 // current monster player is fighting
-Player _Monster;
+Player* _Monster;
 
 char SplashImage[] = "art/_GAME_ART_TITLE.txt";
 
@@ -118,12 +118,12 @@ void splashScreen() {
         cout << Art << "    v" + _VER + "\n\n";
         Reader1.close();
         populateWorld();
-        Beep(56, 100);
+        //Beep(56, 100);
         createMap();
         Beep(56, 100);
         flashScreen();
         textTREK();
-        Beep(57, 100);
+        //Beep(57, 100);
 }
 
 string getCMDPrompt() {
@@ -308,6 +308,9 @@ bool processCMD(string cmd) {
     } else if(cmd == "attack"){
        cout << "You raise your sword and start screaming as you lunge at your opponent.\n";
        fight(_Monster);
+    } else if (cmd == "search monster"){
+        _Monster->specs();
+
 
     } else if(cmd == "help"){
         cout << "valid commands: 'North', 'South', 'East', 'West', 'pickup' \n\n";
@@ -549,21 +552,28 @@ void enterRoom() {
      system("CLS");
      draw_openDoor();
      flashScreen();
+
      string desc =  _GAME_CURRENT_ROOM._desc;
-    cout << "\n\n\t" << desc << endl;
+     cout <<  "\n\n\t" <<  _ROOM_POINTER_A + "," + _ROOM_POINTER_B << endl;
+     cout << "\t" << desc << endl;
 
     //TODO: check for monsters
      int monsters = _GAME_CURRENT_ROOM.hasMonster();
      if(monsters) {
        //cout << " \n  Warning, " << monsters << " monsters found!\n";
         _Monster = _GAME_CURRENT_ROOM.searchRoomForMonsters();
-        cout << "   A " << _Monster.getName() << "(" << _Monster.getHealth() << ") approaches!\n";
+        cout << "   A " << _Monster->getName() << "(" << _Monster->getHealth() << ") approaches!\n";
         fightingPrompt();
 
      }
 }
 
 void fightingPrompt() {
+    bool isAlive = _Monster->getAlive();
+    if(!isAlive) {
+        cout << "\n ^^You defeated the" << _Monster->getName() << "!";
+
+    } else {
         cout << "     (a)ttack or (f)lee? \n";
         cout << "\n" << getCMDPrompt();
         string in;
@@ -573,17 +583,18 @@ void fightingPrompt() {
         } else {
             flee(_Monster);
         }
+     }
 
 
 }
 
-void fight(Player mon){
+void fight(Player *mon){
     // get info about monster
-    int monDamage = mon.getDamage();
-    string monName = mon.getName();
+   // int monDamage = mon.getDamage();
+    string monName = mon->getName();
 
     // flip to see if the monster attacks first as you walk in the room
-    if(randomFlop()) {
+ /**   if(randomFlop()) {
 
         // Monster attacks!
         cout << "  The " << monName << " lunges at you and swings!\n";
@@ -596,8 +607,29 @@ void fight(Player mon){
 
      // Monster does not attack
     } else {
-        _User.attack(mon); // let's hit em boys!
-    }
+  */       cout << "  -You swing at the " << mon->getName() << "\n";
+       // if(randomFlop()) {
+            cout << "  +You HIT, with " << _User.getDamage() << "pts of damage!\n";
+           // _Monster.takeDamage(_User.getDamage());
+            int re = mon->getHealth() - _User.getDamage();
+            if (re < 0) {
+                    re = 0;
+            }
+            cout << "Result:" << re << "\n";
+            mon->setHealth(re);
+
+            if(re == 0){
+                mon->die();
+            }
+
+            //return true;
+        //} else {
+           // cout << "   Miss!\n";
+        //    //return false;
+       // }
+
+
+  //  }
 
 
     // ok, that ends one volley of attacks.
@@ -605,26 +637,31 @@ void fight(Player mon){
 
 
     // the monster died!
-    if(mon.getHealth() == 0 || !mon.getAlive()) {
-        cout << "   You killed the " << mon.getName() << "!\n";
+    if(!mon->getAlive()) {
+        cout << "   You killed the " << mon->getName() << "!\n";
     }
 
     // Player died!
-    if(_User.getHealth() == 0 || !_User.getAlive()) {
-        cout << "   The " << mon.getName() << " killed you!\n";
+    if(!_User.getAlive()) {
+        cout << "   The " << mon->getName() << " killed you!\n";
         Sleep(3000);
-        playerDeath();
+        //playerDeath();
 
-    // both are still alive, let's go at it again
-    } else if (mon.getAlive()){
-         fightingPrompt(); // let's hit em boys!
     }
+
+    // both are still alive, let's go at it again
+  //} else if (_User.getHealth() > 1 &&  mon.getHealth() > 1){
+   //      cout << "STILL ALIVE!\n";
+   //      fightingPrompt(); // let's hit em boys!
+  //  } else {
+   //     cout << "   The battle is over\n";
+  //  }
 }
 
-void flee(Player mon){
+void flee(Player *mon){
 
-    int monDamage = mon.getDamage();
-    string monName = mon.getName();
+    int monDamage = mon->getDamage();
+    string monName = mon->getName();
 
     // does the monster attack first?
     if(randomFlop()) {
@@ -897,15 +934,15 @@ void populateWorld() {
     // --------------------
     //waitProgressBar("    Loading monsters", 5);
     // (name, age, damage, health, armor)
-    _WORLD_MONSTERS[0] = Player("Ghoul", 30, 3, 10, 5);
-    _WORLD_MONSTERS[1] = Player("Commander Ghoul", 80, 20, 100, 15);
-    _WORLD_MONSTERS[2] = Player("Skeleton", 1000, 10, 20, 4);
-    _WORLD_MONSTERS[3] = Player("Orc", 200, 50, 20, 50);
-    _WORLD_MONSTERS[4] = Player("Imp", 200, 7, 20, 2);
+    _WORLD_MONSTERS[0] = Player("Ghoul", 30, 3, 5, 5);
+    _WORLD_MONSTERS[1] = Player("Commander Ghoul", 80, 20, 5, 15);
+    _WORLD_MONSTERS[2] = Player("Skeleton", 1000, 10, 10, 4);
+    _WORLD_MONSTERS[3] = Player("Orc", 200, 50, 5, 50);
+    _WORLD_MONSTERS[4] = Player("Imp", 200, 7, 10, 2);
     //cout << "Monster loading complete!\n";
 
 
-     // random room names
+     // room names
      _ROOM_NAME[0]="Entrance";
      _ROOM_NAME[1]="Hall";
      _ROOM_NAME[2]="Dinning Hall";
@@ -915,15 +952,14 @@ void populateWorld() {
 
 
 
-    // random room descriptions
+    // room descriptions
      _ROOM_DESC[0]="A dark room lit with a torch on the North wall";
      _ROOM_DESC[1]="The smell of Orc is strong in this damp room";
-     _ROOM_DESC[2]="A large room with a tapestry on the South wall, \n\t\t\tand a bookshelf and candle on the North. In the center of\n the room is a large table with eight chairs.";
+     _ROOM_DESC[2]="A large room with a tapestry on the South wall, \n\tand a bookshelf and candle on the North. In the center of\n the room is a large table with eight chairs.";
      _ROOM_DESC[3]="A coat of arms is on the East wall";
      _ROOM_DESC[4]="The North wall is covered with moss.";
-     _ROOM_DESC[5]="The room appears empty other than a table with a platter.\n\t\t\tStale bread fills your nose.";
+     _ROOM_DESC[5]="The room appears empty other than a table with a platter.\n\tStale bread fills your nose.";
 }
-
 
 /**
     Define world map as a global double array of Room objects
@@ -933,6 +969,55 @@ void populateWorld() {
 
 */
 void createMap(){
+
+    cout << "\n" << "    Creating map" << " [";
+     // ____________________
+     // map first row
+     // --------------------
+    _WORLD_MAP[0][0] = randomRoom(1,1,1,1);
+    _WORLD_MAP[0][1] = randomRoom(1,1,1,1);
+    _WORLD_MAP[0][2] = randomRoom(1,1,1,1);
+    _WORLD_MAP[0][3] = randomRoom(1,1,1,1);
+
+    // ____________________
+    // map second row
+    // --------------------
+    _WORLD_MAP[1][0] = randomRoom(1,1,1,1);
+    _WORLD_MAP[1][1] = randomRoom(1,1,1,1);
+    _WORLD_MAP[1][2] = randomRoom(1,1,1,1);
+    _WORLD_MAP[1][3] = randomRoom(1,1,1,1);
+
+    // ____________________
+    // map third row
+    // --------------------
+    _WORLD_MAP[2][0] = randomRoom(1,1,1,1);
+    _WORLD_MAP[2][1] = randomRoom(1,1,1,1);
+    _WORLD_MAP[2][2] = randomRoom(1,1,1,1);
+    _WORLD_MAP[2][3] = randomRoom(1,1,1,1);
+
+    // ____________________
+    // map fourth row
+    // --------------------
+    _WORLD_MAP[3][0] = randomRoom(1,1,1,1);
+    _WORLD_MAP[3][1] = randomRoom(1,1,1,1);
+    _WORLD_MAP[3][2] = randomRoom(1,1,1,1);
+    _WORLD_MAP[3][3] = randomRoom(1,1,1,1);
+    cout << "] Complete!\n\n";
+    Beep(56, 100);
+
+
+}
+
+
+
+/**
+    Define world map as a global double array of Room objects
+     - each value will be a random generated room
+     - each random room will be given a list of define doors
+     - let each be true or false: (north, south, east, west) = (0, 0, 1, 1) = (none, none, door, door)
+
+*/
+void createMapOld(){
 
     cout << "\n" << "    Creating map" << " [";
      // ____________________

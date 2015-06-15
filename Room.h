@@ -31,7 +31,7 @@ public:
     int _doors[5];
     int _numOfMonsters;
     int _numOfItems;
-    Player searchRoomForMonsters();
+    Player *searchRoomForMonsters();
 
     // member functions
     int hasDoor(string);

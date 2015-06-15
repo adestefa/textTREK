@@ -62,7 +62,8 @@ using namespace std;
         int c=0;
         for(int i=0;i<5;i++){
             string n = _monsters[i].getName();
-            if(n != ""){
+            bool alive = _monsters[i].getAlive();
+            if(alive && n != ""){
                 c++;
             }
         }
@@ -109,7 +110,8 @@ using namespace std;
     }
 
     void Room::specs() {
-        cout << "\n" << _desc << endl;
+        cout << "\n" << _name << endl;
+        cout <<  _desc << endl;
         refeshCounts();
         getDoors();
     }
@@ -141,17 +143,19 @@ using namespace std;
 
     }
 // report all things in this room
-    Player Room::searchRoomForMonsters() {
+    Player *Room::searchRoomForMonsters() {
         string monsters;
         string name;
-        Player thisMon;
+        Player *thisMon;
         int cnt = 0;
         for(int m = 0; m < 5; m++) {
                 name = _monsters[m].getName();
                 if(name != ""){
+                    if (_monsters[m].getAlive()) {
                     monsters = monsters + name + " ";
-                    thisMon = _monsters[m];
+                    thisMon = &_monsters[m];
                     cnt++;
+                    }
                 }
         }
 
@@ -165,7 +169,7 @@ using namespace std;
 
         } else {
             cout << "  No monsters found." << endl;
-            return Player("null",0,0,0,0);
+            return thisMon;
         }
 
 

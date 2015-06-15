@@ -8,27 +8,27 @@
         _health = 100;
         _armor = 0;
         _gold = 0;
-        _alive = 1;
+        _alive = true;
     }
 
 
     Player::Player(string n){
         _name = n;
         _gold = 0;
-        _alive = 1;
+        _alive = true;
     }
     Player::Player(string n, int a){
         _name = n;
         _age = a;
         _gold = 0;
-        _alive = 1;
+        _alive = true;
     }
     Player::Player(string n, int a, int d){
         _name = n;
         _age = a;
         _damage = d;
         _gold = 0;
-        _alive = 1;
+        _alive = true;
     }
     Player::Player(string n, int a, int d, int h){
         _name = n;
@@ -36,7 +36,7 @@
         _damage = d;
         _health = h;
         _gold = 0;
-        _alive = 1;
+        _alive = true;
     }
 
     Player::Player(string n, int a, int d, int h, int ar) {
@@ -46,7 +46,7 @@
         _health = h;
         _armor = ar;
         _gold = 0;
-        _alive = 1;
+        _alive = true;
     }
 
 
@@ -83,20 +83,16 @@
     void Player::takeDamage(int damage){
         int result = 0;
         result = this-> _health - damage;
-        cout << "    " << this->_name << " took " << damage << "pts of damage and how has " << result << "\n";
+        cout << "    " << this->_name << " took " << damage << "pts of damage and now has " << result << "\n";
         if(result > 0) {
-           this-> setHealth(result);
-        } else if (result < 1 || result == 0) {
-           this-> setHealth(0);
-           this-> setAlive(0);
+           this->setHealth(result);
+            cout << " take damage:" << this->getName() << "\n";
+        } else {
+           this->die();
+           cout << " DIE:" << this->getName() << "\n";
         }
 
-        cout << this->_name << " health is now " << this->_health << "\n";
-          if (this->getHealth() == 0) {
-                this->die();
-        }
-
-
+        cout << "    " << this->_name << " health is now " << this->_health << " is alive:" << this->getAlive() << "\n";
     }
 
     void Player::die(){
